@@ -78,13 +78,10 @@ rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
 %post
-/usr/bin/install-info %{_infodir}/coreutils.info.gz %{_infodir}/dir
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
-%preun
-if [ $1 = 0 ]; then
-# uninstall the info reference in the dir file
-/usr/bin/install-info --delete %{_infodir}/coreutils.info.gz %{_infodir}/dir
-fi
+%postun
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(-,root,root)
