@@ -10,7 +10,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		flex
 %define ver		2.5.31
-%define rel		los2
+%define rel		los3
 
 Summary:	%{sum}
 Name:		%{name}
@@ -52,6 +52,9 @@ application development.
 
 %install
 make DESTDIR=${RPM_BUILD_ROOT} install
+
+%find_lang %{name}
+
 cd ${RPM_BUILD_ROOT}%{_bindir}/
 ln -sf flex lex
 cd ${RPM_BUILD_ROOT}%{_man1dir}/
@@ -60,22 +63,27 @@ ln -s flex.1 flex++.1
 cd ${RPM_BUILD_ROOT}%{_libdir}/
 ln -s libfl.a libl.a
 
+rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
+
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS ChangeLog NEWS ONEWS README README-alpha README.cvs-snapshot
-%doc RoadMap THANKS TODO
+%doc AUTHORS COPYING ChangeLog NEWS ONEWS README README-alpha
+%doc README.cvs-snapshot RoadMap THANKS TODO
 %{_bindir}/*
 %doc %{_man1dir}/*
 %doc %{_infodir}/*
 %{_libdir}/*
 %{_includedir}/FlexLexer.h
-%{_datadir}/locale/*/*/flex.mo
 
 %changelog
+* Fri Mar 11 2005 Igor Zubkov <icesik@mail.ru> 2.5.31-los3
+- use %%find_lang macros.
+- remove %%{infodir}/dir file.
+
 * Fri Mar 4 2005 Gleb Golubitsky (Sectoid) <Sectoid_GGV@mail.ru> 2.5.31-los2
 - NMU
 - Added patch to proper build of X and etc.
