@@ -1,0 +1,12 @@
+diff -Naur expat-1.95.7.orig/Makefile.in expat-1.95.7/Makefile.in
+--- expat-1.95.7.orig/Makefile.in	2003-10-16 07:51:11.000000000 +0300
++++ expat-1.95.7/Makefile.in	2005-02-01 04:54:01.525320840 +0200
+@@ -30,7 +30,7 @@
+ bindir = @bindir@
+ libdir = @libdir@
+ includedir = @includedir@
+-mandir = ${prefix}/man/man1
++mandir = ${prefix}/share/man/man1
+ 
+ top_builddir = .
+ 
