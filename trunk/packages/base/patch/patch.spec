@@ -6,7 +6,6 @@
 
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
-
 %define sum		The GNU Patch Program.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		patch
