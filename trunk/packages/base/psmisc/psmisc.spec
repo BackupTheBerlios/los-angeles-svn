@@ -10,7 +10,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		psmisc
 %define ver		21.5
-%define rel		los1
+%define rel		los2
 
 %define _exec_prefix	/
 
@@ -61,6 +61,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_man1dir}/*
 
 %changelog
+* Fri Mar 18 2005 Igor Zubkov <icesik@mail.ru> 21.5-los2
+- remove simlink `/bin/pidof`.
+
 * Sat Feb 05 2005 Igor Zubkov <icesik@mail.ru> 21.5-los1
 - update to 21.5.
 - add simlink `ln -s killall pidof`.
