@@ -8,7 +8,7 @@
 
 Name: task-base
 Version: 1
-Release: los3
+Release: los4
 Summary: Metapackage for basic environment.
 License: GPL
 Group: Tasks
@@ -38,7 +38,7 @@ Requires: Linux-PAM
 #Requires: crontabs
 #Requires: slocate
 #Requires: vixie-cron
-Requires: cron
+Requires: cron-daemon-any
 #Requires: anacron
 Requires: shadow
 Requires: syslog-daemon-any
