@@ -9,8 +9,8 @@
 %define sum		The Man-pages package contains over 1200 manual pages.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		man-pages
-%define ver		1.67
-%define rel		los1.1
+%define ver		2.01
+%define rel		los1
 
 Summary:	%{sum}
 Name:		%{name}
@@ -21,7 +21,6 @@ License:	GPL
 Group:		Documentation
 Group(ru_RU.KOI8-R):	Документация
 Source0:	%{name}-%{version}.tar.bz2
-#Source1:	%{name}-%{version}.lsm
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildArch:	noarch
@@ -94,7 +93,7 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc README man-pages-1.67.Announce man-pages-1.67.lsm
+%doc README man-pages-2.01.Announce man-pages-2.01.lsm
 %doc %{_mandir}/man?/*
 
 %files -n man-pages-POSIX
@@ -105,6 +104,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_mandir}/man3p/*
 
 %changelog
+* Mon Mar 28 2005 Igor Zubkov <icesik@mail.ru> 2.01-los1
+- update to 2.01.
+
 * Sat Mar 12 2005 Igor Zubkov <icesik@mail.ru> 1.67-los1.1
 - update to 1.67.
 - remove dups.
