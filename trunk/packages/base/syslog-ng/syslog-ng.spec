@@ -8,21 +8,22 @@
 
 %define name		syslog-ng
 %define ver		1.6.6
-%define rel		los3
+%define rel		los4
 %define libolver	0.3.9
 
 %define _sbindir	/sbin
 
-Summary:           Syslog replacement daemon
-Name:              %{name}
-Version:           %{ver}
-Release:           %{rel}
-Group:             System/Kernel and hardware
-License:           GPL
-Url:               http://www.balabit.com/products/syslog_ng/
-Source0:           %{name}-%{version}.tar.gz
-Source1:           %{name}-%{version}.tar.gz.asc
-Buildroot:         %{_tmppath}/%{name}-buildroot
+Summary:	Syslog replacement daemon.
+Name:		%{name}
+Version:	%{ver}
+Release:	%{rel}
+Group:		System/Base
+License:	GPL
+Url:		http://www.balabit.com/products/syslog_ng/
+Source0:	%{name}-%{version}.tar.gz
+Source1:	%{name}-%{version}.tar.gz.asc
+Source2:	syslog-ng.conf
+Buildroot:	%{_tmppath}/%{name}-buildroot
 
 Requires:	libol >= %{libolver}
 BuildRequires:	libol-dev >= %{libolver}
@@ -50,21 +51,28 @@ ideal for firewalled environments.
 %{__make}
 
 %install
-make DESTDIR=%{buildroot} mandir=%{_mandir} install-strip
+make DESTDIR=${RPM_BUILD_ROOT} mandir=%{_mandir} install-strip
+
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/syslog-ng/
+cp %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/syslog-ng/
+
+%clean
+rm -rf %{buildroot}
+rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
 %doc AUTHORS COPYING README ChangeLog INSTALL NEWS PORTS
 %doc doc/sgml/syslog-ng.txt
 %doc doc/*.demo doc/*.sample doc/*.solaris
+%config(noreplace) %{_sysconfdir}/syslog-ng/syslog-ng.conf
 %{_sbindir}/syslog-ng
 %doc %{_man5dir}/*
 %doc %{_man8dir}/*
 
-%clean
-rm -rf %{buildroot}
-rm -rf %{_builddir}/%{name}-%{version}
-
 %changelog
+* Wed Mar 09 2005 Igor Zubkov <icesik@mail.ru> 1.6.6-los4
+- add /etc/syslog-ng/syslog-ng.conf to package.
+
 * Sun Feb 06 2005 Igor Zubkov <icesik@mail.ru> 1.6.6-los3
 - Initial build for Los Angeles GNU/Linux.
