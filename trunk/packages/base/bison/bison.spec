@@ -9,7 +9,7 @@
 %define sum		Bison parser generator. yacc replacement.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		bison
-%define ver		1.875
+%define ver		2.0
 %define rel		los1
 
 Summary:	%{sum}
@@ -19,8 +19,7 @@ Release:	%{rel}
 Packager:	%{maintainer}
 License:	GPL
 Group:		Development/Other
-Source0:	%{name}-%{version}.tar.bz2
-Patch0:		%{name}-%{version}-attribute.patch
+Source0:	%{name}-%{version}.tar.gz
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -29,7 +28,6 @@ a program that analyzes the structure of a text file.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure
@@ -48,7 +46,7 @@ rm -rf %{_builddir}/%{name}-%{version}
                                                                                 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc AUTHORS ChangeLog NEWS OChangeLog README REFERENCES THANKS TODO doc/FAQ
+%doc AUTHORS COPYING ChangeLog NEWS OChangeLog README REFERENCES THANKS TODO doc/FAQ
 %{_bindir}/*
 %{_datadir}/bison/*
 %{_libdir}/*
@@ -56,5 +54,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_infodir}/*
 
 %changelog
+* Fri Mar 04 2005 Igor Zubkov <icesik@mail.ru> 2.0-los1
+- update to new release 2.0.
+- remove unneeded patch.
+
 * Tue Nov 09 2004 Igor Zubkov <icesik@mail.ru> 1.875-los1
 - Initial build for Los Angeles GNU/Linux.
