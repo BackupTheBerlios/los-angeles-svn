@@ -1,0 +1,54 @@
+diff -ur cracklib,2.7.orig/cracklib/Makefile cracklib,2.7/cracklib/Makefile
+--- cracklib,2.7.orig/cracklib/Makefile	1997-12-15 00:49:21.000000000 +0200
++++ cracklib,2.7/cracklib/Makefile	2004-12-14 04:14:05.000000000 +0200
+@@ -6,9 +6,11 @@
+ # and upwards.
+ ###
+ 
++CC=gcc
++
+ LIB=	libcrack.a
+ OBJ=	fascist.o packlib.o rules.o stringlib.o
+-CFLAGS= -O -I../cracklib -DIN_CRACKLIB
++CFLAGS= ${RPM_OPT_FLAGS} -I../cracklib -DIN_CRACKLIB
+ 
+ $(LIB):	$(OBJ)
+ 	ar rv $(LIB) $?
+diff -ur cracklib,2.7.orig/util/Makefile cracklib,2.7/util/Makefile
+--- cracklib,2.7.orig/util/Makefile	1997-12-15 00:49:34.000000000 +0200
++++ cracklib,2.7/util/Makefile	2004-12-14 04:14:46.000000000 +0200
+@@ -14,26 +14,28 @@
+ #SunOS users (and others?) should consider static linking of their passwd binary
+ #CFLAGS= -O -I../cracklib '-DCRACKLIB_DICTPATH="$(DICTPATH)"' -Bstatic
+ 
+-CFLAGS= -O -I../cracklib '-DCRACKLIB_DICTPATH="$(DICTPATH)"'
++CC=gcc
++
++CFLAGS= ${RPM_OPT_FLAGS} -I../cracklib '-DCRACKLIB_DICTPATH="$(DICTPATH)"'
+ LIBS=	../cracklib/libcrack.a
+ 
+ all:	packer unpacker testnum teststr testlib
+ 	touch all
+ 
+ packer: packer.o $(LIBS)
+-	cc $(CFLAGS) -o $@ $@.o $(LIBS)
++	$(CC) $(CFLAGS) -o $@ $@.o $(LIBS)
+ 
+ unpacker: unpacker.o $(LIBS)
+-	cc $(CFLAGS) -o $@ $@.o $(LIBS)
++	$(CC) $(CFLAGS) -o $@ $@.o $(LIBS)
+ 
+ testnum: testnum.o $(LIBS)
+-	cc $(CFLAGS) -o $@ $@.o $(LIBS)
++	$(CC) $(CFLAGS) -o $@ $@.o $(LIBS)
+ 
+ teststr: teststr.o $(LIBS)
+-	cc $(CFLAGS) -o $@ $@.o $(LIBS)
++	$(CC) $(CFLAGS) -o $@ $@.o $(LIBS)
+ 
+ testlib: testlib.o $(LIBS)
+-	cc $(CFLAGS) -o $@ $@.o $(LIBS)
++	$(CC) $(CFLAGS) -o $@ $@.o $(LIBS)
+ 
+ clean:
+ 	-rm *.o *~ all

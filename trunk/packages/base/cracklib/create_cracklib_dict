@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ -z "$*" ]; then
+        echo "Usage:"
+        echo "  $0 wordlist ..."
+        echo
+        echo "This script takes one or more word list files as arguments"
+        echo "and converts them into cracklib dictionaries for use"
+        echo "by password checking programs. The results are placed in"
+        echo "/usr/lib/cracklib_dict.*"
+        echo
+        echo "Example:"
+        echo "$0 /usr/share/dict/words"
+else
+        /usr/sbin/mkdict $* | /usr/sbin/packer /usr/lib/cracklib_dict
+fi
