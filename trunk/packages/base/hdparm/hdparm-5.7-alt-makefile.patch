@@ -1,0 +1,15 @@
+--- hdparm-5.7/Makefile.orig	2004-08-25 01:45:06 +0400
++++ hdparm-5.7/Makefile	2004-09-05 01:09:41 +0400
+@@ -13,10 +13,10 @@
+ ifndef CC
+ CC = gcc
+ endif
+-CFLAGS := -O2 -W -Wall -Wbad-function-cast -Wcast-align -Wpointer-arith -Wcast-qual -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -fkeep-inline-functions -Wwrite-strings -Waggregate-return -Wnested-externs -Wtrigraphs $(CFLAGS)
++CFLAGS := -W -Wbad-function-cast -Wcast-align -Wpointer-arith -Wcast-qual -Wshadow -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -fkeep-inline-functions -Wwrite-strings -Waggregate-return -Wnested-externs -Wtrigraphs $(RPM_OPT_FLAGS)
+ 
+ 
+-LDFLAGS = -s
++LDFLAGS =
+ INSTALL = install
+ INSTALL_DATA = $(INSTALL) -m 644
+ INSTALL_PROGRAM = $(INSTALL)
