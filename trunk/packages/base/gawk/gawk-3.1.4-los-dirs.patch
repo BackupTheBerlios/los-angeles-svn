@@ -1,0 +1,70 @@
+diff -ur gawk-3.1.4.orig/Makefile.am gawk-3.1.4/Makefile.am
+--- gawk-3.1.4.orig/Makefile.am	2004-07-29 04:15:06.000000000 -0400
++++ gawk-3.1.4/Makefile.am	2005-03-18 19:31:43.900236952 -0500
+@@ -117,8 +117,8 @@
+ 
+ # Set autoconf Makefile.in variables correctly
+ datadir = @datadir@
+-awkdatadir = @datadir@/awk
+-libexecdir = @libexecdir@/awk
++awkdatadir = @datadir@/gawk-3.1.4
++libexecdir = @libexecdir@
+ 
+ # stuff for compiling gawk/pgawk
+ DEFPATH="\".$(PATH_SEPARATOR)$(awkdatadir)\""
+diff -ur gawk-3.1.4.orig/Makefile.in gawk-3.1.4/Makefile.in
+--- gawk-3.1.4.orig/Makefile.in	2004-08-02 05:16:30.000000000 -0400
++++ gawk-3.1.4/Makefile.in	2005-03-18 19:31:53.861722576 -0500
+@@ -259,7 +259,7 @@
+ infodir = @infodir@
+ install_sh = @install_sh@
+ libdir = @libdir@
+-libexecdir = @libexecdir@/awk
++libexecdir = @libexecdir@
+ localstatedir = @localstatedir@
+ mandir = @mandir@
+ mkdir_p = @mkdir_p@
+@@ -361,7 +361,7 @@
+ 
+ # Get extra libs as needed
+ LDADD = @LIBINTL@ @SOCKET_LIBS@
+-awkdatadir = @datadir@/awk
++awkdatadir = @datadir@/gawk-3.1.4
+ 
+ # stuff for compiling gawk/pgawk
+ DEFPATH = "\".$(PATH_SEPARATOR)$(awkdatadir)\""
+diff -ur gawk-3.1.4.orig/awklib/Makefile.am gawk-3.1.4/awklib/Makefile.am
+--- gawk-3.1.4.orig/awklib/Makefile.am	2004-07-28 09:32:55.000000000 -0400
++++ gawk-3.1.4/awklib/Makefile.am	2005-03-18 19:27:28.427074776 -0500
+@@ -29,8 +29,8 @@
+ # not the source directory.
+ AM_CPPFLAGS = -I..
+ 
+-datadir = @datadir@/awk
+-libexecdir = @libexecdir@/awk
++datadir = @datadir@/gawk-3.1.4
++libexecdir = @libexecdir@
+ 
+ bin_SCRIPTS = igawk
+ libexec_PROGRAMS = pwcat grcat
+diff -ur gawk-3.1.4.orig/awklib/Makefile.in gawk-3.1.4/awklib/Makefile.in
+--- gawk-3.1.4.orig/awklib/Makefile.in	2004-08-02 05:16:30.000000000 -0400
++++ gawk-3.1.4/awklib/Makefile.in	2005-03-18 19:28:14.873013920 -0500
+@@ -199,7 +199,7 @@
+ build_cpu = @build_cpu@
+ build_os = @build_os@
+ build_vendor = @build_vendor@
+-datadir = @datadir@/awk
++datadir = @datadir@/gawk-3.1.4
+ exec_prefix = @exec_prefix@
+ host = @host@
+ host_alias = @host_alias@
+@@ -210,7 +210,7 @@
+ infodir = @infodir@
+ install_sh = @install_sh@
+ libdir = @libdir@
+-libexecdir = @libexecdir@/awk
++libexecdir = @libexecdir@
+ localstatedir = @localstatedir@
+ mandir = @mandir@
+ mkdir_p = @mkdir_p@
