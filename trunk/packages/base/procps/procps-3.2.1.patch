@@ -1,0 +1,12 @@
+diff -Naur procps-3.2.1.orig/w.c procps-3.2.1/w.c
+--- procps-3.2.1.orig/w.c       2003-09-20 09:42:26.000000000 +0300
++++ procps-3.2.1/w.c    2004-10-24 15:09:14.000000000 +0300
+@@ -237,7 +237,7 @@
+     from = 0;
+ #endif
+ 
+-    setlocale(LC_ALL, "");
++    setlocale(LC_NUMERIC, "C");
+     for (args=0; (ch = getopt(argc, argv, "hlusfV")) != EOF; args++)
+        switch (ch) {
+          case 'h': header = 0;         break;

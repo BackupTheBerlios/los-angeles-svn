@@ -1,0 +1,12 @@
+diff -urN procps-3.2.1.orig/proc/module.mk procps-3.2.1/proc/module.mk
+--- procps-3.2.1.orig/proc/module.mk	2004-01-29 22:04:45.000000000 +0200
++++ procps-3.2.1/proc/module.mk	2004-10-25 04:55:07.000000000 +0300
+@@ -65,7 +65,7 @@
+ $(lib)/$(SONAME) : proc/$(SONAME)
+ 	$(install) --mode a=rx --strip $< $@
+ 	cd $(lib) && $(ln_sf) $(SONAME) lib$(NAME).so
+-	$(ldconfig)
++#	$(ldconfig)
+ 
+ #$(usr/lib)/lib$(NAME).a : proc/lib$(NAME).a
+ #	$(install) --mode a=r --strip $< $@
