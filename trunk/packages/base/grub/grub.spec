@@ -9,7 +9,7 @@
 %define sum		The Grub package contains a bootloader.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		grub
-%define ver		0.94
+%define ver		0.96
 %define rel		los1
 
 Summary:	%{sum}
@@ -52,10 +52,11 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc AUTHORS BUGS COPYING ChangeLog INSTALL MAINTENANCE NEWS README THANKS TODO
 %{_bindir}/mbchk
 %{_sbindir}/*
-%{_datadir}/grub/*/*
+%{_libdir}/grub/*/*
 %doc %{_infodir}/grub.*
 %doc %{_infodir}/multiboot.*
-%doc %{_mandir}/man[18]/*
+%doc %{_man1dir}/*
+%doc %{_man8dir}/*
 
 %changelog
 * Wed Jun 16 2004 Igor Zubkov <icesik@mail.ru> 0.94-los1
