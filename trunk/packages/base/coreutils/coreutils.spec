@@ -22,6 +22,7 @@ Packager:	%{maintainer}
 License:	GPL
 Group:		System/Base
 Source0:	%{name}-%{version}.tar.bz2
+Source1:	%{name}-%{version}.tar.bz2.sig
 Patch0:		%{name}-%{version}-los-kill-uptime.patch
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
