@@ -8,9 +8,9 @@
 
 %define sum		Vim is an almost compatible version of the UNIX editor Vi.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
-%define	name		vim
-%define	ver		6.3.045
-%define	rel		los1
+%define name		vim
+%define ver		6.3.045
+%define rel		los2
 %define url		http://www.vim.org/
 
 Summary:	%{sum}
@@ -19,7 +19,7 @@ Version:	%{ver}
 Release:	%{rel}
 Packager:	%{maintainer}
 License:	Charityware/GPL
-Group:		Editors
+Group:		System/Base
 Source0:	ftp://ftp.vim.org/pub/vim/unix/vim-6.3.tar.bz2
 Source1:	vim-6.3-lang.tar.gz
 Patch1:		6.3.001
@@ -96,7 +96,7 @@ UNIX.  Porting to other systems should not be very difficult.
 cd ${RPM_BUILD_DIR}/
 
 cp %{SOURCE1} .
-tar xvfz %{SOURCE1}
+tar xf %{SOURCE1}
 
 cd vim63/
 
@@ -148,19 +148,25 @@ cd vim63/
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
+cd ${RPM_BUILD_ROOT}%{_datadir}/vim/vim63/tools/
+gzip -9 *
 
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/vim63
-rm -ff %{_builddir}/vim-6.3-lang.tar.gz
+rm -f  %{_builddir}/vim-6.3-lang.tar.gz
 
 %files
 %defattr(-,root,root)
 %{_bindir}/*
-%doc %{_mandir}/man1/*
+%doc %{_man1dir}/*
 %{_datadir}/vim/vim63/
 
 %changelog
+* Sun Mar 27 2005 Igor Zubkov <icesik@mail.ru> 6.3.045-los2
+- remove some deps.
+- clean up spec.
+
 * Sun Jan 09 2005 Igor Zubkov <icesik@mail.ru> 6.3.045-los1
 - security fix upload.
 - update to 6.3.045
