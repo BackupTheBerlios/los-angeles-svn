@@ -8,7 +8,7 @@
 
 Name: task-c-devel
 Version: 1
-Release: los3
+Release: los4
 License: Public Domain
 Summary: Metapackage for C development
 
@@ -16,10 +16,10 @@ Group: Tasks
 
 Requires: binutils
 Requires: bison
-Requires: cpp3.3
+Requires: cpp3.4
 Requires: diffutils
 Requires: flex
-Requires: gcc3.3
+Requires: gcc3.4
 Requires: glibc-dev
 Requires: libtool
 Requires: m4
@@ -44,6 +44,9 @@ It itself includes no software, only dependencies on software.
 %files
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 1-los4
+- update to cpp3.4 and gcc3.4.
+
 * Wed Jan 19 2005 Igor Zubkov <icesik@mail.ru> 1-los3
 - remove glibc-kernheaders from Requires.
 
