@@ -1,9 +1,17 @@
+# $Id$
+# This spec file is part of Los Angeles GNU/Linux and distributed 
+# under the terms of the GNU General Public License version 2
+# Copyright (c) 2005 by Los Angeles GNU/Linux Team
+# Homepage: http://los-angeles.berlios.de/
+
+# vim: set ft=spec: -*- mode: rpm-spec; -*-
+
 %define sum		System V initialization program.
 %define sum_ru		Программы, управляющие базовыми системными процессами.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		sysvinit
-%define ver		2.85
-%define rel		los5
+%define ver		2.86
+%define rel		los1
 
 Summary:	%{sum}
 Summary(ru):	%{sum_ru}
@@ -11,9 +19,8 @@ Name:		%{name}
 Version:	%{ver}
 Release:	%{rel}
 Packager:	%{maintainer}
-Source0:	%{name}-%{version}.tar.gz
-Source1:	%{name}-%{version}.lsm
-Patch0:		sysvinit-2.85-los1.patch
+Source0:	%{name}-%{ver}.tar.bz2
+Patch0:		%{name}-%{ver}-los-rpmflags.patch
 License:	GPL v2
 Group:		System/Base
 Group(ru_RU.KOI8-R):	Система/База
@@ -45,10 +52,11 @@ sed 's/Sending processes/Sending processes started by init/g' \
 %{__make} -C src %{_smp_mflags}
 
 %install
+mkdir -p ${RPM_BUILD_ROOT}/bin/
 mkdir -p ${RPM_BUILD_ROOT}/sbin/
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}/
 mkdir -p ${RPM_BUILD_ROOT}%{_includedir}/
-mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man{1,2,3,4,5,6,7,8}/
+mkdir -p ${RPM_BUILD_ROOT}%{_mandir}/man{1,5,8}/
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/
 
 %{__make} -C src ROOT=${RPM_BUILD_ROOT} install
@@ -59,13 +67,19 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc README COPYRIGHT doc
+%doc COPYRIGHT doc contrib obsolete
+/bin/*
 /sbin/*
 %{_bindir}/*
 %{_includedir}/*
-%doc %{_mandir}/man[158]/*
+%doc %{_man1dir}/*
+%doc %{_man5dir}/*
+%doc %{_man8dir}/*
 
 %changelog
+* Fri Mar 18 2005 Igor Zubkov <icesik@mail.ru> 2.86-los1
+- update to 2.86.
+
 * Fri Jan 28 2005 Igor Zubkov <icesik@mail.ru> 2.85-los5
 - move file /etc/inittab to base-scripts.
 
