@@ -51,7 +51,7 @@ rm -rf %{_builddir}/%{name}-%{version}
 %defattr(-,root,root)
 %doc README web
 %{_bindir}/ccache
-%doc %{_man1dir}/ccache.1*
+%doc %{_man1dir}/*
 
 %changelog
 * Fri Dec 10 2004 Igor Zubkov <icesik@mail.ru> 2.4-los1
