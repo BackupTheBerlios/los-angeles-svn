@@ -9,7 +9,7 @@
 %define sum		GNU `m4' is an implementation of the traditional Unix macro processor.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		m4
-%define ver		1.4.1
+%define ver		1.4.2
 %define rel		los1
 
 Summary:	%{sum}
@@ -19,7 +19,7 @@ Release:	%{rel}
 Packager:	%{maintainer}
 License:	GPL
 Group:		System/Base
-Source0:	%{name}-%{version}.tar.gz
+Source0:	%{name}-%{version}.tar.bz2
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -49,7 +49,7 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc BACKLOG ChangeLog NEWS README THANKS TODO
+%doc BACKLOG COPYING ChangeLog NEWS README THANKS TODO
 %{_bindir}/m4
 #%{_datadir}/locale/*/*/m4.mo
 %doc %{_infodir}/m4.*
@@ -57,6 +57,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 #%{_datadir}/m4/*
 
 %changelog
+* Mon Mar 14 2005 Igor Zubkov <icesik@mail.ru> 1.4.2-los1
+- update to 1.4.2.
+
 * Thu Jun 10 2004 Igor Zubkov <icesik@mail.ru> 1.4.1-los1
 - update (or downgrade ;-)) ) to a new release.
 
