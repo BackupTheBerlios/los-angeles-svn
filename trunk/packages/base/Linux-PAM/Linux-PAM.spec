@@ -11,6 +11,7 @@
 %define name		Linux-PAM
 %define ver		0.77
 %define rel		los3
+%define url		http://www.kernel.org/pub/linux/libs/pam/
 
 Summary:	%{sum}
 Name:		%{name}
@@ -22,7 +23,7 @@ Group:		System/Libraries
 Group(ru_RU.KOI8-R):	Система/Библиотеки
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}-%{version}.tar.bz2.sign
-URL:		http://www.kernel.org/pub/linux/libs/pam/
+URL:		%{url}
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:	cracklib
@@ -65,7 +66,7 @@ ln -s libpamc.so.0.77 libpamc.so.0
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%post -p /sbin/ldconfig
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
