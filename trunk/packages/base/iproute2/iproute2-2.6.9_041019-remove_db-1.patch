@@ -1,0 +1,30 @@
+Submitted By: Jeremy Utley <jeremy@linuxfromscratch.org>
+Date: 2004-11-04
+Initial Package Version: 2.6.9-041019
+Upstream Status - Not submitted - LFS Specific
+Origin: Based on inital work by Jim Gifford, ported to apply to the latest version
+Description: Disables compilation of the arpd program, which requres Berkley DB.
+
+
+diff -Naur iproute2-2.6.9/misc/Makefile iproute2-2.6.9-new/misc/Makefile
+--- iproute2-2.6.9/misc/Makefile	2004-10-19 20:49:02.000000000 +0000
++++ iproute2-2.6.9-new/misc/Makefile	2004-11-04 19:14:43.704002010 +0000
+@@ -1,7 +1,7 @@
+ SSOBJ=ss.o ssfilter.o
+ LNSTATOBJ=lnstat.o lnstat_util.o
+ 
+-TARGETS=ss nstat ifstat rtacct arpd lnstat
++TARGETS=ss nstat ifstat rtacct lnstat
+ 
+ include ../Config
+ 
+@@ -18,9 +18,6 @@
+ rtacct: rtacct.c
+ 	$(CC) $(CFLAGS) $(LDFLAGS) -o rtacct rtacct.c $(LIBNETLINK) -lm
+ 
+-arpd: arpd.c
+-	$(CC) $(CFLAGS) -I$(DBM_INCLUDE) $(LDFLAGS) -o arpd arpd.c $(LIBNETLINK) -ldb -lpthread
+-
+ ssfilter.c: ssfilter.y
+ 	bison ssfilter.y -o ssfilter.c
+ 

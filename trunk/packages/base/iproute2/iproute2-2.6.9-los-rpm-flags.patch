@@ -1,0 +1,12 @@
+diff -urN iproute2-2.6.9.orig/Makefile iproute2-2.6.9/Makefile
+--- iproute2-2.6.9.orig/Makefile	2004-10-19 16:49:02.000000000 -0400
++++ iproute2-2.6.9/Makefile	2005-02-05 04:46:27.092268680 -0500
+@@ -20,7 +20,7 @@
+ ADDLIB+=ipx_ntop.o ipx_pton.o
+ 
+ CC = gcc
+-CCOPTS = -D_GNU_SOURCE -O2 -Wstrict-prototypes -Wall -g
++CCOPTS = -D_GNU_SOURCE -Wstrict-prototypes -Wall $(RPM_OPT_FLAGS)
+ CFLAGS = $(CCOPTS) -I../include $(DEFINES)
+ 
+ LDLIBS += -L../lib -lnetlink -lutil
