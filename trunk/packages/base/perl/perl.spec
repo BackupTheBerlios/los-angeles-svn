@@ -9,8 +9,10 @@
 %define sum		Practical Extraction and Report Language
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		perl
-%define ver		5.8.5
+%define ver		5.8.6
 %define rel		los1
+
+%define __find_requires	%{_builddir}/%{name}-%{version}/my-find-requires
 
 Summary:	%{sum}
 Name:		%{name}
@@ -18,7 +20,7 @@ Version:	%{ver}
 Release:	%{rel}
 Packager:	%{maintainer}
 License:	Artistic
-Group:		perl
+Group:		System/Base
 Source0:	%{name}-%{version}.tar.bz2
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -27,24 +29,17 @@ The  Perl  package  contains perl, the Practical Extraction and Report
 Language.  Perl  combines some of the best features of C, sed, awk and
 sh into one powerful language.
 
-%package doc
-Summary: Perl documentation.
-Group: perl
-
-%description doc
-Docs.
-
-#%%package man
-#%Summary: Perl mans
-#%Group: perl
-
-#%%description man
-#%Perl manual pages.
-
 %prep
 %setup -q
 
 %build
+mkdir -p %{_builddir}/%{name}-%{version}
+cd %{_builddir}/%{name}-%{version}
+cat > my-find-requires << EOF
+/usr/lib/rpm/find-requires | grep -v perl
+EOF
+chmod +x my-find-requires
+
 ./configure.gnu --prefix=%{_prefix} \
     -Dinstallprefix=${RPM_BUILD_ROOT}%{_prefix} \
     -Dcf_by='Los Angeles GNU/Linux' \
@@ -61,19 +56,21 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-/usr/bin/
-/usr/lib/
-
-%files doc
-%defattr(-,root,root)
 %doc AUTHORS Artistic Changes Changes5.* Copying INSTALL MANIFEST
 %doc README README.* Todo.micro
-
-#%%files man
-#%%defattr(-,root,root)
-#%%{_mandir}/*/*
+/usr/bin/
+/usr/lib/
+%doc %{_mandir}/*/*
 
 %changelog
+* Sun Mar 27 2005 Igor Zubkov <icesik@mail.ru> 5.8.6-los1
+- update to 5.8.6.
+- build man pages.
+- remove any perl requires from perl package.
+- move all man pages to perl package from perl-man package.
+- move all docs to perl package from perl-doc package.
+- mark all man pages as docs.
+
 * Sun Jan 16 2005 Igor Zubkov <icesik@mail.ru> 5.8.5-los1
 - update to 5.8.5
 - disable build man pages.
