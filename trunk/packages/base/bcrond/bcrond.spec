@@ -6,13 +6,11 @@
 
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
-# TODO: clean up build for non i686
-
 %define sum		Bisqwit's crond
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		bcrond
 %define ver		1.0.8
-%define rel		los1
+%define rel		los2
 
 Summary:	%{sum}
 Name:		%{name}
@@ -24,18 +22,19 @@ Group:		System/Base
 Group(ru_RU.KOI8-R):	Система/База
 Source0:	%{name}-%{version}.tar.bz2
 Source1:	%{name}.html
+Patch0:		%{name}-%{version}-los-build.patch
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
-Provides:	crond
+Provides:	cron-daemon-any
 
 BuildRequires:	task-c++-devel
-Requires:	libstdc++
 
 %description
 Bisqwit's crond.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__make} %{_smp_mflags}
@@ -57,5 +56,8 @@ rm -rf %{_builddir}/%{name}-%{version}
 /var/spool/crontabs
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 1.0.8-los2
+- rebuild with gcc3.4-3.4.3.
+
 * Sat Apr 03 2004 Igor Zubkov <icesik@mail.ru> 1.0.8-los1
 - Initial build for Los Angeles GNU/Linux.

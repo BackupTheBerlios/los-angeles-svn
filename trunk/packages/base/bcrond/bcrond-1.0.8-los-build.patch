@@ -1,0 +1,12 @@
+diff -ur bcrond-1.0.8.orig/Makefile bcrond-1.0.8/Makefile
+--- bcrond-1.0.8.orig/Makefile	2002-01-26 23:06:35.000000000 -0500
++++ bcrond-1.0.8/Makefile	2005-03-31 19:41:58.907617312 -0500
+@@ -4,7 +4,7 @@
+ CPP=gcc
+ CXX=g++
+ CPPFLAGS=-Wall -W -pedantic -DVERSION=\"$(VERSION)\" -DDATADIR=\"$(DATADIR)\"
+-CXXFLAGS=-O2 -fomit-frame-pointer -pipe
++CXXFLAGS=$(RPM_OPT_FLAGS) -fomit-frame-pointer -pipe
+ LDFLAGS=-s
+ BINDIR=/usr/local/sbin
+ INSTALL=install
