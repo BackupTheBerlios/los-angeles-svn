@@ -10,7 +10,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		flex
 %define ver		2.5.31
-%define rel		los3
+%define rel		los4
 
 Summary:	%{sum}
 Name:		%{name}
@@ -25,7 +25,7 @@ Patch0:		%{name}-%{version}-los1.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:	task-c++-devel
-Requires:	libstdc++3.3
+Requires:	libstdc++3.4
 
 %description
 The flex program generates scanners.  Scanners are programs which can
@@ -65,6 +65,12 @@ ln -s libfl.a libl.a
 
 rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
+%post
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
@@ -80,6 +86,10 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_includedir}/FlexLexer.h
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 2.5.31-los4
+- rebuild with gcc3.4-3.4.3.
+- fix install info files.
+
 * Fri Mar 11 2005 Igor Zubkov <icesik@mail.ru> 2.5.31-los3
 - use %%find_lang macros.
 - remove %%{infodir}/dir file.
