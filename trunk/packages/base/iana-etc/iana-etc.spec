@@ -9,7 +9,7 @@
 %define sum		The Iana-Etc package provides data for network services and protocols.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		iana-etc
-%define ver		1.01
+%define ver		1.03
 %define rel		los1
 
 Summary:	%{sum}
@@ -44,11 +44,14 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc COPYING README
+%doc COPYING README CREDITS
 %config(noreplace) %{_sysconfdir}/protocols
 %config(noreplace) %{_sysconfdir}/services
 
 %changelog
+* Wed Mar 23 2005 Igor Zubkov <icesik@mail.ru> 1.03-los1
+- update to 1.03.
+
 * Thu Feb 03 2005 Igor Zubkov <icesik@mail.ru> 1.01-los1
 - update to 1.01.
 - mark config noreplace.
