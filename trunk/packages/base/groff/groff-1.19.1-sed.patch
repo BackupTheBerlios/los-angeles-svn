@@ -1,0 +1,9 @@
+diff -ur groff-1.19.1.orig/font/devps/generate/symbol.sed groff-1.19.1/font/devps/generate/symbol.sed
+--- groff-1.19.1.orig/font/devps/generate/symbol.sed	2000-02-06 11:36:20.000000000 +0200
++++ groff-1.19.1/font/devps/generate/symbol.sed	2005-02-15 09:00:16.000000000 +0200
+@@ -1,4 +1,4 @@
+-#! /bin/sed -f
++#! /usr/bin/sed -f
+ # Tweak the AFM file for the Symbol font.
+ /^C .*[ ;]N bracketlefttp[ ;]/bx
+ /^C .*[ ;]N bracketleftex[ ;]/bx
