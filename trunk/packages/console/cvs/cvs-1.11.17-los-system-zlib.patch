@@ -1,0 +1,137 @@
+diff -urN cvs-1.11.17.orig/Makefile.am cvs-1.11.17/Makefile.am
+--- cvs-1.11.17.orig/Makefile.am	2004-05-19 19:03:49.000000000 +0300
++++ cvs-1.11.17/Makefile.am	2005-02-04 20:22:00.000000000 +0200
+@@ -17,7 +17,7 @@
+ ## Subdirectories to run make in for the primary targets.
+ # Unix source subdirs, where we'll want to run lint and etags:
+ # This is a legacy variable from b4 Automake
+-USOURCE_SUBDIRS = lib zlib diff src
++USOURCE_SUBDIRS = lib diff src
+ # All other subdirs:
+ SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib tools \
+ 	windows-NT os2 emx vms
+diff -urN cvs-1.11.17.orig/Makefile.in cvs-1.11.17/Makefile.in
+--- cvs-1.11.17.orig/Makefile.in	2004-06-09 17:46:03.000000000 +0300
++++ cvs-1.11.17/Makefile.in	2005-02-04 20:23:10.000000000 +0200
+@@ -142,7 +142,7 @@
+ 
+ # Unix source subdirs, where we'll want to run lint and etags:
+ # This is a legacy variable from b4 Automake
+-USOURCE_SUBDIRS = lib zlib diff src
++USOURCE_SUBDIRS = lib diff src
+ # All other subdirs:
+ SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib tools \
+ 	windows-NT os2 emx vms
+@@ -172,7 +172,7 @@
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+ CONFIG_HEADER = config.h
+-CONFIG_CLEAN_FILES = cvs.spec emx/Makefile os2/Makefile zlib/Makefile
++CONFIG_CLEAN_FILES = cvs.spec emx/Makefile os2/Makefile
+ DIST_SOURCES =
+ 
+ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
+@@ -229,8 +229,6 @@
+ 	cd $(top_builddir) && $(SHELL) ./config.status $@
+ os2/Makefile: $(top_builddir)/config.status $(top_srcdir)/os2/Makefile.in
+ 	cd $(top_builddir) && $(SHELL) ./config.status $@
+-zlib/Makefile: $(top_builddir)/config.status $(top_srcdir)/zlib/Makefile.in
+-	cd $(top_builddir) && $(SHELL) ./config.status $@
+ uninstall-info-am:
+ 
+ # This directory's subdirectories are mostly independent; you can cd
+@@ -373,7 +371,7 @@
+ distdir: $(DISTFILES)
+ 	$(am__remove_distdir)
+ 	mkdir $(distdir)
+-	$(mkinstalldirs) $(distdir)/. $(distdir)/contrib $(distdir)/doc $(distdir)/emx $(distdir)/os2 $(distdir)/src $(distdir)/windows-NT $(distdir)/zlib
++	$(mkinstalldirs) $(distdir)/. $(distdir)/contrib $(distdir)/doc $(distdir)/emx $(distdir)/os2 $(distdir)/src $(distdir)/windows-NT
+ 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
+ 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
+ 	list='$(DISTFILES)'; for file in $$list; do \
+diff -urN cvs-1.11.17.orig/configure cvs-1.11.17/configure
+--- cvs-1.11.17.orig/configure	2004-06-09 17:40:14.000000000 +0300
++++ cvs-1.11.17/configure	2005-02-04 20:21:36.000000000 +0200
+@@ -13013,7 +13013,7 @@
+           ac_config_files="$ac_config_files windows-NT/fix-msvc-mak:windows-NT/fix-msvc-mak-head.pl:windows-NT/fix-msvc-mak.pl"
+ 
+ 
+-                                                                                                                                                      ac_config_files="$ac_config_files Makefile contrib/Makefile cvs.spec diff/Makefile doc/Makefile emx/Makefile lib/Makefile man/Makefile os2/Makefile src/Makefile tools/Makefile vms/Makefile windows-NT/Makefile windows-NT/SCC/Makefile zlib/Makefile"
++                                                                                                                                                      ac_config_files="$ac_config_files Makefile contrib/Makefile cvs.spec diff/Makefile doc/Makefile emx/Makefile lib/Makefile man/Makefile os2/Makefile src/Makefile tools/Makefile vms/Makefile windows-NT/Makefile windows-NT/SCC/Makefile"
+ 
+ 
+ cat >confcache <<\_ACEOF
+@@ -13611,7 +13611,6 @@
+   "vms/Makefile" ) CONFIG_FILES="$CONFIG_FILES vms/Makefile" ;;
+   "windows-NT/Makefile" ) CONFIG_FILES="$CONFIG_FILES windows-NT/Makefile" ;;
+   "windows-NT/SCC/Makefile" ) CONFIG_FILES="$CONFIG_FILES windows-NT/SCC/Makefile" ;;
+-  "zlib/Makefile" ) CONFIG_FILES="$CONFIG_FILES zlib/Makefile" ;;
+   "lib/fnmatch.h" ) CONFIG_LINKS="$CONFIG_LINKS lib/fnmatch.h:lib/fnmatch.h.in" ;;
+   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
+   "config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
+diff -urN cvs-1.11.17.orig/configure.in cvs-1.11.17/configure.in
+--- cvs-1.11.17.orig/configure.in	2004-06-09 17:37:31.000000000 +0300
++++ cvs-1.11.17/configure.in	2005-02-04 20:20:26.000000000 +0200
+@@ -1040,8 +1040,7 @@
+ 	  tools/Makefile \
+ 	  vms/Makefile \
+ 	  windows-NT/Makefile \
+-	  windows-NT/SCC/Makefile \
+-	  zlib/Makefile])
++	  windows-NT/SCC/Makefile)
+ 
+ dnl and we're done
+ AC_OUTPUT
+diff -urN cvs-1.11.17.orig/src/Makefile.am cvs-1.11.17/src/Makefile.am
+--- cvs-1.11.17.orig/src/Makefile.am	2004-02-03 21:05:36.000000000 +0200
++++ cvs-1.11.17/src/Makefile.am	2005-02-04 20:24:24.000000000 +0200
+@@ -22,7 +22,7 @@
+ # try and remove naming ocnflicts and fix Automake to allow particular includes
+ # to be attached only to particular object files.  Short term fix is either or.
+ ##INCLUDES = -I. -I.. -I$(srcdir) -I$(top_srcdir)/lib
+-INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/diff -I$(top_srcdir)/zlib $(includeopt)
++INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/diff $(includeopt)
+ 
+ bin_PROGRAMS = cvs
+ bin_SCRIPTS = cvsbug
+@@ -102,8 +102,7 @@
+ 
+ cvs_LDADD = \
+ 	../diff/libdiff.a \
+-	../lib/libcvs.a \
+-	../zlib/libz.a
++	../lib/libcvs.a -lz
+ 
+ # extra clean targets
+ # wish this could be distclean-hdr-local but it's not part of automake
+diff -urN cvs-1.11.17.orig/src/Makefile.in cvs-1.11.17/src/Makefile.in
+--- cvs-1.11.17.orig/src/Makefile.in	2004-06-09 17:46:19.000000000 +0300
++++ cvs-1.11.17/src/Makefile.in	2005-02-04 20:25:21.000000000 +0200
+@@ -146,7 +146,7 @@
+ # some namespace hackery going on that maybe shouldn't be.  Long term fix is to
+ # try and remove naming ocnflicts and fix Automake to allow particular includes
+ # to be attached only to particular object files.  Short term fix is either or.
+-INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/diff -I$(top_srcdir)/zlib $(includeopt)
++INCLUDES = -I$(top_srcdir)/lib -I$(top_srcdir)/diff $(includeopt)
+ 
+ bin_PROGRAMS = cvs
+ bin_SCRIPTS = cvsbug
+@@ -227,8 +227,7 @@
+ 
+ cvs_LDADD = \
+ 	../diff/libdiff.a \
+-	../lib/libcvs.a \
+-	../zlib/libz.a
++	../lib/libcvs.a -lz
+ 
+ 
+ # extra clean targets
+@@ -272,7 +271,7 @@
+ 	vers_ts.$(OBJEXT) watch.$(OBJEXT) wrapper.$(OBJEXT) \
+ 	zlib.$(OBJEXT)
+ cvs_OBJECTS = $(am_cvs_OBJECTS)
+-cvs_DEPENDENCIES = ../diff/libdiff.a ../lib/libcvs.a ../zlib/libz.a
++cvs_DEPENDENCIES = ../diff/libdiff.a ../lib/libcvs.a -lz
+ cvs_LDFLAGS =
+ SCRIPTS = $(bin_SCRIPTS)
+ 

@@ -1,0 +1,9 @@
+diff -ur cvs-1.11.17.orig/contrib/sccs2rcs.in cvs-1.11.17/contrib/sccs2rcs.in
+--- cvs-1.11.17.orig/contrib/sccs2rcs.in	2004-02-03 16:37:48.000000000 +0200
++++ cvs-1.11.17/contrib/sccs2rcs.in	2005-02-05 00:14:13.000000000 +0200
+@@ -1,4 +1,4 @@
+-#! @CSH@ -f
++#! /bin/csh -f
+ #
+ # Sccs2rcs is a script to convert an existing SCCS
+ # history into an RCS history without losing any of
