@@ -9,7 +9,7 @@
 %define sum		Shadow password file utilities for Linux.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		shadow
-%define ver		4.0.6
+%define ver		4.0.7
 %define rel		los1
 
 Summary:	%{sum}
@@ -44,6 +44,7 @@ and shadow passwords in general.
 %setup -q
 
 %build
+CFLAGS="$RPM_OPT_FLAGS" \
 ./configure --host=%{_host} --build=%{_build} \
             --target=%{_target_platform} \
 	    --prefix=%{_prefix} \
@@ -56,6 +57,8 @@ and shadow passwords in general.
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
+
+%find_lang %{name}
 
 mkdir -p ${RPM_BUILD_ROOT}/etc/default
 
@@ -79,38 +82,40 @@ ln -sf ../../lib/libshadow.so
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%post -p /sbin/ldconfig
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
-%doc ABOUT-NLS ChangeLog NEWS README TODO doc
+%doc ChangeLog NEWS README TODO doc contrib
 %dir /etc/default
-%config /etc/default/useradd
-%config /etc/login.defs
+%config(noreplace) /etc/default/useradd
+%config(noreplace) /etc/login.defs
 %config(noreplace) /etc/securetty
 /bin/*
+/lib/*
 %{_bindir}/*
 %{_sbindir}/*
-/lib/*
 %{_libdir}/*
-%{_datadir}/locale/*/*/shadow.mo
-%doc %{_mandir}/cs/man?/*
-%doc %{_mandir}/de/man?/*
-%doc %{_mandir}/es/man?/*
-%doc %{_mandir}/fr/man?/*
-%doc %{_mandir}/hu/man?/*
-%doc %{_mandir}/id/man?/*
-%doc %{_mandir}/it/man?/*
-%doc %{_mandir}/ja/man?/*
-%doc %{_mandir}/ko/man?/*
 %doc %{_mandir}/man?/*
-%doc %{_mandir}/pl/man?/*
-%doc %{_mandir}/pt_BR/man?/*
-%doc %{_mandir}/ru/man?/*
-%doc %{_mandir}/zh_CN/man?/*
-%doc %{_mandir}/zh_TW/man?/*
+%lang(cs) %doc %{_mandir}/cs/man?/*
+%lang(de) %doc %{_mandir}/de/man?/*
+%lang(es) %doc %{_mandir}/es/man?/*
+%lang(fr) %doc %{_mandir}/fr/man?/*
+%lang(hu) %doc %{_mandir}/hu/man?/*
+%lang(id) %doc %{_mandir}/id/man?/*
+%lang(it) %doc %{_mandir}/it/man?/*
+%lang(ja) %doc %{_mandir}/ja/man?/*
+%lang(ko) %doc %{_mandir}/ko/man?/*
+%lang(pl) %doc %{_mandir}/pl/man?/*
+%lang(pt_BR) %doc %{_mandir}/pt_BR/man?/*
+%lang(ru) %doc %{_mandir}/ru/man?/*
+%lang(zh_CN) %doc %{_mandir}/zh_CN/man?/*
+%lang(zh_TW) %doc %{_mandir}/zh_TW/man?/*
 
 %changelog
+* Mon Mar 28 2005 Igor Zubkov <icesik@mail.ru> 4.0.7-los1
+- update to 4.0.7.
+
 * Fri Dec 17 2004 Igor Zubkov <icesik@mail.ru> 4.0.6-los1
 - Initial build for Los Angeles GNU/Linux.
