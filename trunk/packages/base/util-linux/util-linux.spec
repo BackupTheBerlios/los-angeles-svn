@@ -12,8 +12,10 @@
 %define sum		Util-Linux
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		util-linux
-%define ver		2.12b
-%define rel		los1
+%define ver		2.12q
+%define rel		los2
+
+%define __find_requires	%{_builddir}/%{name}-%{version}/my-find-requires
 
 Summary:	%{sum}
 Name:		%{name}
@@ -24,7 +26,8 @@ License:	GPL
 Group:		System/Base
 Group(ru_RU.KOI8-R):	Система/База
 Source0:	%{name}-%{version}.tar.bz2
-Source1:	%{name}-%{version}.tar.bz2.sign
+#Source1:	%{name}-%{version}.tar.bz2.sign
+Patch0:		%{name}-%{version}-cramfs-1.patch
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:	libncurses-dev
@@ -41,8 +44,16 @@ fetch kernel messages.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+mkdir -p %{_builddir}/%{name}-%{version}
+cd %{_builddir}/%{name}-%{version}
+cat > my-find-requires << EOF
+/usr/lib/rpm/find-requires | grep -v tcsh
+EOF
+chmod +x my-find-requires
+
 cp hwclock/hwclock.c{,.backup}
 sed 's%etc/adjtime%var/lib/hwclock/adjtime%' hwclock/hwclock.c.backup > hwclock/hwclock.c
 CC=%{__cc} ./configure 
@@ -53,11 +64,13 @@ mkdir -p ${RPM_BUILD_ROOT}/var/lib/hwclock
 
 %{__make} DESTDIR=${RPM_BUILD_ROOT} HAVE_KILL=yes HAVE_SLN=yes install
 
+%find_lang %{name}
+
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 %doc HISTORY INSTALL MAINTAINER README
 %config(noreplace) /etc/fdprm
@@ -65,12 +78,19 @@ rm -rf %{_builddir}/%{name}-%{version}
 /sbin/*
 %{_bindir}/*
 %{_sbindir}/*
-%{_datadir}/locale/*/*/util-linux.mo
 %{_datadir}/misc/getopt/*
 %doc %{_infodir}/*
-%doc %{_mandir}/man[158]/*
+%doc %{_man1dir}/*
+%doc %{_man5dir}/*
+%doc %{_man8dir}/*
 
 %changelog
+* Sun Mar 27 2005 Igor Zubkov <icesik@mail.ru> 2.12q-los2
+- remove tcsh from depends.
+
+* Sun Mar 27 2005 Igor Zubkov <icesik@mail.ru> 2.12q-los1
+- update 2.12q.
+
 * Sun Jan 09 2005 Igor Zubkov <icesik@mail.ru> 2.12b-los2
 - mark /etc/fdprm noreplace.
 - remove Vendor field.
