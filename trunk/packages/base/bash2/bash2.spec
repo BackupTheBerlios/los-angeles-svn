@@ -62,7 +62,7 @@ mv bash sh
 
 cp sh ${RPM_BUILD_ROOT}/bin/
 
-rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
+rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 mkdir -p ${RPM_BUILD_ROOT}/bin/
 
