@@ -6,12 +6,10 @@
 
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
-# TODO: clean up build for --target
-
 %define sum		A file compression utility.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		bzip2
-%define ver		1.0.2
+%define ver		1.0.3
 %define rel		los1
 
 Summary:	%{sum}
@@ -20,7 +18,7 @@ Version:	%{ver}
 Release:	%{rel}
 Packager:	%{maintainer}
 Source0:	%{name}-%{version}.tar.bz2
-Patch0:		%{name}-%{version}-manpath.patch
+Patch0:		%{name}-%{version}-los-build.patch
 License:	BSD
 Group:		System/Base
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -44,6 +42,13 @@ Requires: %{name} = %{version}-%{release}
 %description dev
 Development files for bzip2.
 
+%package manual
+Summary: Bzip2 manual.
+Group: Documentation
+
+%description manual
+Bzip2 manual.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -58,7 +63,7 @@ Development files for bzip2.
 mkdir -p ${RPM_BUILD_ROOT}/bin
 cp bzip2-shared ${RPM_BUILD_ROOT}/bin/bzip2
 cp -a libbz2.so* ${RPM_BUILD_ROOT}%{_libdir}
-ln -s ../../lib/libbz2.so.1.0 ${RPM_BUILD_ROOT}%{_libdir}/libbz2.so
+ln -s libbz2.so.1.0 ${RPM_BUILD_ROOT}%{_libdir}/libbz2.so
 rm ${RPM_BUILD_ROOT}%{_bindir}/{bunzip2,bzcat,bzip2}
 mv ${RPM_BUILD_ROOT}%{_bindir}/{bzip2recover,bzless,bzmore} \
 	${RPM_BUILD_ROOT}/bin
@@ -69,17 +74,16 @@ ln -s bzip2 ${RPM_BUILD_ROOT}/bin/bzcat
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%post -p /sbin/ldconfig
+%post   -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root)
 %doc CHANGES LICENSE README README.COMPILATION.PROBLEMS Y2K_INFO
-%doc manual.pdf manual.ps manual.texi *.html
 /bin/*
 %{_bindir}/*
 %{_libdir}/*.so.*
-%doc %{_mandir}/man1/*
+%doc %{_man1dir}/*
 
 %files dev
 %defattr(-,root,root)
@@ -87,6 +91,18 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_libdir}/*.so
 %{_includedir}/bzlib.h
 
+%files manual
+%defattr(-,root,root)
+%doc README.XML.STUFF *.xml *.xsl *.css xmlproc.sh format.pl
+%doc manual.pdf manual.ps manual.html
+
 %changelog
+* Thu Mar 24 2005 Igor Zubkov <icesik@mail.ru> 1.0.3-los1
+- update to 1.0.3.
+- security upload.
+- clean up --target build.
+- clean up spec file.
+- split out bzip2 manual into bzip2-manual package.
+
 * Thu Mar 04 2004 Igor Zubkov <icesik@mail.ru> 1.0.2-los1
 - Initial build for Los Angeles GNU/Linux.
