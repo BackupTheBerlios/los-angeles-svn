@@ -1,0 +1,31 @@
+--- rpm-4.0.2/build/files.c	Fri May 17 14:28:01 2002
++++ rpm-4.0.2-/build/files.c	Fri May 17 14:26:29 2002
+@@ -813,6 +813,16 @@
+ 	    appendStringBuf(pkg->specialDoc, "cp -pr ");
+ 	    appendStringBuf(pkg->specialDoc, specialDocBuf);
+ 	    appendLineStringBuf(pkg->specialDoc, " $DOCDIR");
++
++	    {
++	        char *compress_doc;
++
++		compress_doc = rpmExpand("%{__compress_doc}", NULL);
++		if (compress_doc && *compress_doc != '%')
++	    	    appendLineStringBuf(pkg->specialDoc, compress_doc);
++		if (compress_doc)
++		  free(compress_doc);
++	    }
+ 	}
+     }
+ 
+--- rpm-4.0.5/platform.in.orig	2003-01-15 18:33:32.000000000 +0100
++++ rpm-4.0.5/platform.in	2004-01-07 05:43:03.000000000 +0100
+@@ -102,6 +102,9 @@
+     %{__os_install_post}\
+ %{nil}
+ 
++# Executed at after copying %doc to DOCDIR, with $DOCDIR set
++%__compress_doc		@libdir@/rpm/compress-doc
++
+ @redhat@#---------------------------------------------------------------------
+ @redhat@#	Expanded at end of %prep
+ @redhat@#

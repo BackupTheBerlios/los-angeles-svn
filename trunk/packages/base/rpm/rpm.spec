@@ -11,7 +11,7 @@
 
 %define rpm_name	rpm
 %define rpm_ver		4.1
-%define rel		los6
+%define rel		los6.1
 
 Summary:		The RPM package management system.
 Summary(ru_RU.KOI8-R):	Менеджер пакетов RPM.
@@ -20,11 +20,14 @@ Version:		%{rpm_ver}
 Release:		%{rel}
 Packager:		Igor Zubkov <icesik@mail.ru>
 Source0:		rpm-4.1.tar.gz
+Source2:		rpm-compress-doc
 Patch0:			rpm-4.1-los.patch
 Patch1:			rpm-4.1-python2.2.patch
 Patch2:			rpm-4.1-macros.patch
 Patch3:			rpm-4.1-macros2.patch
 Patch4:			rpm-4.1-los-kdemacros.patch
+Patch5:			rpm-4.1-los-dir.patch
+Patch6:			rpm-compress-doc.patch
 License:		GPL
 Group:			System/Base
 Group(ru_RU.KOI8-R):	Система/База
@@ -189,18 +192,26 @@ doxygen documentation for rpm.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
-%configure --with-python --with-apidocs --without-javaglue
+%configure \
+	--with-python \
+	--with-apidocs \
+	--without-javaglue
 %{__make} %{_smp_mflags}
 %{__make} doxygen
 
-cd beecrypt
-%{__make} check
-cd ..
+#cd beecrypt
+##%%{__make} check
+##cd ..
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
+
+# ставим скрипт для сжатия документации при сборке
+install %{SOURCE2} ${RPM_BUILD_ROOT}%{_libdir}/rpm/compress-doc
 
 # выносим файлы с макросами - они теперь в отдельном пакете
 # это сделано для того что бы не надо было бы пересобирать
@@ -235,8 +246,8 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 #    touch ${RPM_BUILD_ROOT}/var/lib/rpm/$dbi
 #done
 
-#%cd ${RPM_BUILD_ROOT}%{_libdir}
-#%mv pythonyes python2.2
+cd ${RPM_BUILD_ROOT}%{_libdir}
+mv pythonyes python2.2
 
 %post -n libpopt -p /sbin/ldconfig
 %postun -n libpopt -p /sbin/ldconfig
@@ -248,8 +259,8 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 %postun -n librpm -p /sbin/ldconfig
 
 %clean
-%rm -rf %{buildroot}
-%rm -rf %{_builddir}/%{rpm_name}-%{rpm_ver}
+rm -rf %{buildroot}
+rm -rf %{_builddir}/%{rpm_name}-%{rpm_ver}
 
 %files
 %defattr(-,root,root)
@@ -269,16 +280,16 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 %{_bindir}/rpmu
 %{_libdir}/rpmrc
 %{_libdir}/rpmpopt
-/usr/lib/rpm/rpmpopt-4.1
-/usr/lib/rpm/rpmrc
-/usr/lib/rpm/rpmv
-/usr/lib/rpm/rpmu
-/usr/lib/rpm/rpmd
-/usr/lib/rpm/rpme
-/usr/lib/rpm/rpmi
-/usr/lib/rpm/rpmk
-/usr/lib/rpm/rpmq
-/usr/lib/rpm/rpm2cpio.sh
+%{_libdir}/rpm/rpmpopt-4.1
+%{_libdir}/rpm/rpmrc
+%{_libdir}/rpm/rpmv
+%{_libdir}/rpm/rpmu
+%{_libdir}/rpm/rpmd
+%{_libdir}/rpm/rpme
+%{_libdir}/rpm/rpmi
+%{_libdir}/rpm/rpmk
+%{_libdir}/rpm/rpmq
+%{_libdir}/rpm/rpm2cpio.sh
 %{_datadir}/locale/*/*/rpm.mo
 %doc %{_man1dir}/gendiff.*
 %doc %{_man8dir}/rpm.*
@@ -356,6 +367,7 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 %{_libdir}/rpm/unstripfile
 %{_libdir}/rpm/vpkg-provides.sh
 %{_libdir}/rpm/vpkg-provides2.sh
+%{_libdir}/rpm/compress-doc
 %doc %{_man8dir}/rpmbuild.*
 %doc %{_man8dir}/rpmcache.*
 %doc %{_man8dir}/rpmgraph.*
@@ -398,7 +410,7 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 %{_includedir}/popt.h
 %{_libdir}/libpopt.la
 %{_libdir}/libpopt.a
-%doc %{_mandir}/man3/popt.*
+%doc %{_man3dir}/popt.*
 
 %files -n libbeecrypt
 %defattr(-,root,root)
@@ -424,9 +436,15 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 %doc apidocs
 
 %changelog
+* Sat Mar 12 2005 Igor Zubkov <icesik@mail.ru> 4.1-los6.1
+- apply rpm-compress-doc patch and rebuild.
+
 * Tue Feb 15 2005 Igor Zubkov <icesik@mail.ru> 4.1-los6
-- rpm: remove Requires: patch.
-- rpm-build: add Requires: patch.
+- rpm: remove Requires patch.
+- rpm-build: add Requires patch.
+- disable beecrypt tests.
+- add rpm-compress-doc patch.
+- some cleanups.
 
 * Tue Jan 11 2005 Igor Zubkov <icesik@mail.ru> 4.1-los5
 - remove all macros to rpm-macros package and add 
@@ -437,7 +455,7 @@ mkdir -p ${RPM_BUILD_ROOT}/etc/rpm
 - added `diffutils' to Requires.
 - added `patch' to Requires.
 - added new macros.
-- change BuildRequires: zlib-dev to libz-dev.
+- change BuildRequires zlib-dev to libz-dev.
 
 * Wed Dec 08 2004 Igor Zubkov <icesik@mail.ru> 4.1-los4
 - added new macros.

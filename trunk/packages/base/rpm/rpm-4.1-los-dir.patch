@@ -1,0 +1,11 @@
+diff -ur rpm-4.1.orig/scripts/brp-compress rpm-4.1/scripts/brp-compress
+--- rpm-4.1.orig/scripts/brp-compress	2001-11-24 10:36:50.000000000 -0500
++++ rpm-4.1/scripts/brp-compress	2005-03-10 19:56:02.401751936 -0500
+@@ -21,6 +21,7 @@
+     do
+         [ -f "$f" ] || continue
+ 	[ "`basename $f`" = "dir" ] && continue
++	[ "`basename $f`" = "dir.old" ] && continue
+ 
+ 	case "$f" in
+ 	 *.Z) gunzip $f; b=`echo $f | sed -e 's/\.Z$//'`;;
