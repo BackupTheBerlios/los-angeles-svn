@@ -1,0 +1,25 @@
+# $Id$
+
+Политика относительно патчей:
+
+1) все патчи должны быть вида:
+[три числа]_[NAME]-[VERSION]-[ORIGIN]-[WHAT].patch
+
+[три числа] -- порядок накладывания патча (001,002 ... 999)
+[NAME] -- имя пакета на который сделать патч
+[VERSION] -- версия пакета на который сделан патч
+[ORIGIN] -- аббревиатура источника патча (обычно дистрибутив)
+[WHAT] -- краткое описание патча
+
+.patch -- обязательно.
+
+Сокращения для ORIGIN:
+    -rh- RedHat (http://www.redhat.com/)
+    -mdk- Mandrake
+    -debian- Debian (http://www.debian.org/)
+    -alt- ALTLinux (http://www.altlinux.ru/)
+    -asp- ASPLinux (http://www.asplinux.ru/)
+    -fdr- Fedora
+    -pld- PLD Linux (http://www.pld.org.pl/)
+
+ну и Los Angeles - -los-.
