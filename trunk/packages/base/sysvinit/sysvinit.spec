@@ -1,10 +1,12 @@
-%define sum		Startup programs.
+%define sum		System V initialization program.
+%define sum_ru		Программы, управляющие базовыми системными процессами.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		sysvinit
 %define ver		2.85
 %define rel		los5
 
 Summary:	%{sum}
+Summary(ru):	%{sum_ru}
 Name:		%{name}
 Version:	%{ver}
 Release:	%{rel}
@@ -12,14 +14,24 @@ Packager:	%{maintainer}
 Source0:	%{name}-%{version}.tar.gz
 Source1:	%{name}-%{version}.lsm
 Patch0:		sysvinit-2.85-los1.patch
-License:	GPL
+License:	GPL v2
 Group:		System/Base
 Group(ru_RU.KOI8-R):	Система/База
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-The Sysvinit package contains programs to control the startup, running
-and shutdown of all other programs.
+The SysVinit package contains a group of processes that control the
+very basic functions of your system. SysVinit includes the init
+program, the first program started by the Linux kernel when the system
+boots. Init then controls the startup, running and shutdown of all
+other programs.
+
+%description -l ru
+Пакет SysVinit содержит группу процессов, которые управляют самыми
+базовыми функциями вашей системы. SysVinit включает программу init,
+самую первую программу, которая запускается ядром Linux при загрузке
+системы. После этого init управляет запуском, исполнением и остановом
+всех остальных программ.
 
 %prep
 %setup -q
