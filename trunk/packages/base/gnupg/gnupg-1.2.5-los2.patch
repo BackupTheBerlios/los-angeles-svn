@@ -1,0 +1,12 @@
+diff -ur gnupg-1.2.5.orig/po/Makefile.in.in gnupg-1.2.5/po/Makefile.in.in
+--- gnupg-1.2.5.orig/po/Makefile.in.in	2002-06-29 16:43:03.000000000 +0300
++++ gnupg-1.2.5/po/Makefile.in.in	2004-12-16 12:37:17.000000000 +0200
+@@ -29,7 +29,7 @@
+ INSTALL = @INSTALL@
+ INSTALL_DATA = @INSTALL_DATA@
+ MKINSTALLDIRS = @MKINSTALLDIRS@
+-mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
++mkinstalldirs = $(SHELL) `echo "$(MKINSTALLDIRS)"`
+ 
+ CC = @CC@
+ GMSGFMT = @GMSGFMT@

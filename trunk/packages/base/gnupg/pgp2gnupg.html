@@ -1,0 +1,389 @@
+<HTML>
+<HEAD><TITLE>gpg - converting from pgp</TITLE>
+<META name="keywords" value="gpg, converting, pgp, gnupg, openpgp, rpm, spec">
+<META name="description" value="How to switch from pgp to gnupg.">
+</HEAD>
+<BODY BGCOLOR="#BFBFBF">
+
+<CENTER>
+[ 
+<A HREF="/">TechnoCage</A> |
+<A HREF="/~caskey/">Caskey</A> |
+<A HREF="/~caskey/gnupg/">gnupg</A> |
+<!-- A HREF="/~caskey/gpg/pgp2gnupg.html" -->pgp 2 gpg<!-- /A --> 
+]
+</CENTER>
+<H1>Note: THIS INFORMATION ONLY APPLIES TO PRE-1.0 VERSIONS OF GNUPG</H1>
+<H1>Moving from PGP to <a HREF="http://www.d.shuttle.de/isil/gnupg/">GnuPG</a></H1>
+<B>Arghhh! How do I switch to GnuPG when I (and my friends) already use PGP?</B>
+<HR>
+<P>I recently had my old PGP 5.0 key brought back from the dead when a 
+colleague of mine wanted to send me some private info and all he had available
+was PGP 5.5.  Luckily I had created a DSS key under 5.0 and so I figured I
+may be able to make use of my old keys.  I regret not setting an expiration
+date on my old key as it would have been very useful in this case.  I now have
+four keys that I must deal with.  Two RSA (PGP 2.6), one DSS/Diffie-Hellman
+ (PGP 5.0) and 
+one DSA/ElGamal (GnuPG 3.6).
+<P>Always set an expiration date on your keys.</P>
+<P>That said, there are several issues at hand.  First, I have a pair of
+DSS/Diffie-Hellman  keys that my friend is using PGP 5.5 to communicate
+with me.  Second, I have a DSS/Diffie-Hellman public key that my friend 
+is using.  Thirdly, I have a copy of gnupg 0.4.0.
+
+<P>This document has two parts.  The first describes how to prepare to
+<EM>encrypt</EM> messages to a user of PGP5.x.  The second details how
+to take a PGP5.x KEY and install it on your GnuPG keyring so you may
+<EM>decrypt</EM> messages from a PGP5.x user.</P>
+
+<P>If these instructions do or do not work for you I would like to
+hear about it.  Thanks to all the people on the GnuPG mailing list who
+have unwittingly provided most of the information I used in creating
+this.</P> 
+
+<HR WIDTH="90%">
+
+<CENTER><H2>Encrypting TO a user of PGP 5.0+</H2></CENTER>
+<HR WIDTH="90%">
+<H3>Fetch user's key from remote key server</H3>
+<P>In order to encrypt mail to my friend, I must be able to use GnuPG
+to encrypt against a DSS/Diffie-Hellman key.  I used PGP to retrieve
+his public key from the keys.pgp.com public key server.
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -a hkp://keys.pgp.com/friend@sample.com</FONT><BR>
+  </CODE>
+  <PRE>
+Looking up host keys.pgp.com
+Establishing connection
+Sending request
+Receiving data
+Cleaning up
+Complete.
+
+Adding keys:
+
+Key ring: 'hkp://keys.pgp.com/taylor@technocage.com'
+Type Bits KeyID      Created    Expires    Algorithm       Use
+pub  1024 0x01234567 1998-10-10 ---------- DSS             Sign & Encrypt 
+sub  2048 0x89ABCDEF 1998-10-10 ---------- Diffie-Hellman                 
+uid  Friend &lt;friend@sample.com&gt;
+
+1 matching key found
+
+Add these keys to your keyring? [Y/n] <FONT COLOR="#008080">y</FONT>
+
+Keys added successfully.
+
+</PRE>
+</BLOCKQUOTE>
+<H3>Verify key actually belongs to friend</H3>
+<P>First, I printed out the key ID and fingerprint of each of the keys
+so I can ask my friend if they match.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -ll friend@sample.com</FONT><BR>
+<PRE>
+Type Bits KeyID      Created    Expires    Algorithm       Use
+pub  1024 <FONT COLOR="#F00000">0x01234567</FONT> 1998-10-10 ---------- DSS             Sign & Encrypt 
+f20    Fingerprint20 = <FONT COLOR="#F00000">0123 4567 89AB CDEF FEDC  BA98 7654 3210 DEAD BEEF</FONT>
+sub  2048 <FONT COLOR="#F00000">0x89ABCDEF</FONT> 1998-10-10 ---------- Diffie-Hellman                 
+f20    Fingerprint20 = <FONT COLOR="#F00000">FFFF DDDD 8888 5555 3333  2222 1111 0000 BAEF FADE</FONT>
+uid  Friend &lt;friend@sample.com&gt;
+sig       0x01234567 1998-10-10 Friend &lt;friend@sample.com&gt;
+</PRE>
+  </CODE>
+</BLOCKQUOTE>
+
+
+<P>I then phoned my friend and asked him to
+verify the key fingerprint and ID over the telephone.  As luck would have
+it, the information matched up.
+<H3>Export key to ascii file</H3>
+After verifying that the key was his, I exported it like so:</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -xa friend &gt; friend.key</FONT><BR>
+<PRE>
+</PRE>
+  </CODE>
+</BLOCKQUOTE>
+<H3>Import key to GnuPG</H3>
+<P>I then used gnupg to import that key.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">gpg --import &lt; friend.key</FONT>
+  </CODE>
+<PRE>
+gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+gpg:[stdin]: key ABCDEFGH: public key imported
+</PRE>
+</BLOCKQUOTE>
+<P>I could have used the following command as well.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -xa friend | gpg --import</FONT>
+  </CODE>
+<PRE>
+gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+gpg:[stdin]: key ABCDEFGH: public key imported
+</PRE>
+</BLOCKQUOTE>
+
+<H3>Create test message for friend</H3>
+<P>Now that I have loaded my friends key onto my GnuPG keyring, I can make 
+a little test message for him to try decrypting.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">echo 'Hello Friend!' | gpg -ear friend </FONT>
+  </CODE>
+<PRE>
+-----BEGIN PGP MESSAGE-----
+Version: GNUPG v0.4.0 (GNU/Linux)
+Comment: Get GNUPG from ftp://ftp.guug.de/pub/gcrypt/
+
+ibxH/34oeT+0yFF0qQYqSp1AXTOfKV1Khw6GXgyxrnAbUozYFHuNaSU1uI2VlezTosb+ZFpu
+03+PUoiyGbq/YPgcsoZOv65TSd8q3b2JbbMDsp9SAMq3WyIRffw2YBHwCu3Jxw/lQjGEkw8r
+Q5Nea1Ph2cFby6f7abIauEKWcdBxb7Nk5VOBN7yVPcp4dNBPIOijB8v/EeMz8a16YXQVYxk5
+FmXuh4PzLJ09woaJRbYAJPVtLXiAHANYrqonfJ8tvM3ziP6mC20CRQebV9YWguMXJTYEC6An
+hQIOAx1s/MTwZKdhEAf/WZnNy7RILDVxKJperR3k2xOPy5rNxRXxSVFvboXEQf/B01zvE8Fn
+udEgGwqE808X6sbxVZ7JWiOG7k0uk+M1Dxsi7ujzZdL6rWYq830DnC/LmtWs/XM2V9HwnoRo
+CUlEsXi7zPykSxhAm5TAMhn2Al5iFrF/y3ROLf2DK+xUflZxs+uvnLLl2vRRKYmy0DXdE0z1
+EKB2KNMPFVruuphzspH1wrNGxKs3WU0THEp/GvVj6WR0fCjQ9n5qBaKuT8kknbXbgm5zJCTC
+J+KNOw2VwOCI7lKeKvzrr/p7tg8gasRnca3a9u3cTXXWk3cWYKcw/mdghwUUwmOUCvTeZI2k
+MwgA5520XYbuDi2HX0LeOKf7DEVXOPixRrrnydJcnjoAYLYO3/xpQqh0IzJ1P1HwZbVnJVNl
+z+yXNvfzAVedlkQ+98G/yraLtzASWNwbpaQZ
+=xYcK
+-----END PGP MESSAGE-----
+</PRE>
+</BLOCKQUOTE>
+<P>I take the resulting cyphertext and paste it into an email addressed
+to my friend.  Now we wait....</P>
+
+<P>We wait some more (my friend is notoriously slow to respond to messages).</P>
+
+<P>Finally after a long (long) time, my friend responds that he was
+able to read my message.  Of course, he is kind enough to use my PGP
+key to send this. Thus we segue into the next section on using GnuPG
+to decrypt messages sent by users of PGP5.0 to DSS/DH keys generated
+by PGP5.0. 
+</P>
+<P>One important note is that my friend was using PGP5.5, not 5.0.  In 
+later tests with pgp 5.0i I discovered that you must add two more parameters
+to the encryption command.  Specifically <CODE>--no-armor --no-comment</CODE>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">echo 'Hello Friend!' | gpg -ear --no-armor --no-comment friend &gt; mesg </FONT>
+  </CODE>
+</BLOCKQUOTE>
+<P>Remember that <CODE>gpg --no-armor</CODE> will produce 'binary' output and so you
+are wise to stick it in a file and then attach that file to an email.
+</P>
+
+<HR WIDTH="90%">
+<CENTER><H2>Decrypting with a PGP DSS/Diffie-Hellman key</H2></CENTER>
+<HR WIDTH="90%">
+
+<P>Now the problem is, how do I make it so that my friend can use my GPG key
+to send me messages?  Is this even possible?</P>
+
+<P>I must now import my old DSS/Diffie-Hellman key onto
+my GnuPG key ring.  This is not as easy as one may think.  It is complicated
+by the fact that the PGP key utility <CODE>pgpk</CODE> does not have a
+parameter for exporting a private key.  As luck would have it, superior
+software packages such as GnuPG are capable of solving this problem for us.
+<P>It is important to note that <B>this procedure puts your private key
+at risk</B> for a short period of time and therefore <B>should not be done
+on a multi-user or public system</B></P>
+
+<H3>Step one: import your public key</H3>
+<P>This is the easy part.  We use pgpk to extract your public key from
+your keyring and import it into GnuPG.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -x 7BBD08DC | gpg --import</FONT><BR>
+<PRE>
+gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+gpg:[stdin]: key 7BBD08DC: not changed
+gpg:[stdin]: key 00000000: no valid user ids
+gpg: this may be caused by a missing self-signature
+gpg:[stdin]: key 0809AD24: no valid user ids
+gpg: this may be caused by a missing self-signature
+</PRE>
+  </CODE>
+</BLOCKQUOTE>
+<P>A quick check of the gnupg keyring shows that my key has, in fact
+been imported properly.  I don't entirely understand the output of the
+import however nothing in it seems troublesome.  Perhaps someone who
+knows more than I do can explain it to me.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">gpg --list-keys</FONT><BR>
+  <PRE>
+gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+pub  1024D/7BBD08DC 1997-07-23 Caskey L. Dickson <caskey@one.sample.com>
+uid                            Caskey L. Dickson <caskey@two.sample.com>
+uid                            Caskey L. Dickson <caskey@three.sample.com>
+sub  4096g/2B65D18B 1997-07-23
+  </PRE>
+  </CODE>
+</BLOCKQUOTE>
+<P>That certainly does look like my key.</P>
+
+<H3>Remove passphrase from private PGP key</H3>
+<P>This is the <B>dangerous part</B>.  Depending upon your paranoia
+level you can do everything from a simple <CODE>w</CODE> in order to
+see who else is on your machine to unplugging your network card and
+modem from the wall.  It all depends upon the environment you operate
+in and how much you trust the sytem you are using.
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -e 0x7BBD08DC</FONT><BR>
+  <PRE>
+sec+ 1024 0x7BBD08DC 1997-07-23 ---------- DSS             Sign & Encrypt 
+sub  4096 0x2B65D18B 1997-07-23 ---------- Diffie-Hellman                 
+uid  Caskey L. Dickson &lt;caskey@one.sample.com&gt;
+uid  Caskey L. Dickson &lt;caskey@two.sample.com&gt;
+uid  Caskey L. Dickson &lt;caskey@three.sample.com&gt;
+
+  1024 bits, Key ID 0x7BBD08DC, created 1997-07-23
+   "Caskey L. Dickson &lt;caskey@one.sample.com&gt;"
+   "Caskey L. Dickson &lt;caskey@two.sample.com&gt;"
+   "Caskey L. Dickson &lt;caskey@three.sample.com&gt;"
+
+
+Do you want to unset this key as axiomatic [y/N]? <font color="#008080">N</FONT>
+
+Do you want to unset this key as axiomatic [y/N]? <font color="#008080">N</FONT>
+
+Do you want to add a new user ID [y/N]? <font color="#008080">N</FONT>
+
+Do you want to change your pass phrase (y/N)? <font color="#008080">Y</FONT>
+Need old passphrase. Enter pass phrase: <font color="#008080">passphrase</FONT>
+Need new passphrase. Enter pass phrase: <font color="#008080">*nothing*</FONT>
+Enter it a second time. Enter pass phrase: <font color="#008080">*nothing*</FONT>
+Changing master key passphrase...
+Changing subkey passphrase...
+
+Do want to set this as your default key [y/N]? <font color="#008080">N</FONT>
+Keyrings updated.
+</PRE>
+  </CODE>
+</BLOCKQUOTE>
+<H3>Export private key into GnuPG</H3>
+<P>Now that we have removed the passphrase from the key we can export
+it using GnuPG.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">mkdir ~/private</FONT><BR>
+    $ <font color="#008080">chmod 700 ~/private</FONT><BR>
+    $ <font color="#008080">chdir ~/private</FONT><BR>
+    $ <font color="#008080">gpg --armor --export-secret-keys --secret-keyring ~/.pgp/secring.skr 0x7BBD08DC &gt; mykey.sec</FONT><BR>
+  <PRE>
+gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+gpg: key 456260DC: secret key without public key
+gpg: failed to initialize the TrustDB: Public key not found
+  </PRE>
+  </CODE>
+</BLOCKQUOTE>
+<P>The messages about not having a TrustDB entry and a missing public
+key are more or less normal as we did not specify the matching public
+key ring on the GnuPG command line.</P>
+
+<H3>Import secret key file to GnuPG</H3>
+<P>We have a file named mykey.sec which contains an ascii armored
+private key sans passphrase.  Now we must quickly load it into our
+keyring. </P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">gpg --import &lt; mykey.sec</FONT><BR>
+  <PRE>
+  </PRE>
+  </CODE>
+</BLOCKQUOTE>
+<P>I don't have the output of this command (yet).</P>
+
+<H3>Set passphrase on both keys <EM>IMMEDIATELY</EM></H3>
+<P>We must quickly put the passphrases back onto *both* keyrings now.</P>
+<P>Some of you have asked 'what the heck does the third instruction do?' It's actually
+a rather simple trick.  The <CODE>mykey.sec</CODE> file contains an un-protected
+secret key.  Obviously we want to get rid of it ASAP.  If we were to just <CODE>rm</CODE>
+the file, yes that would eliminate the file, however the now unused blocks would be floating around
+on the disk somewhere with your secret key bytes still in it. 
+Not a terrible thing, but if you're going to jump off the building
+from the 10th floor, why not make it the 100th and enjoy the view on the way down.
+Seriously though, what we've done is take the GnuPG binary and overwritten the secret
+key file.  This (mostly) ensures that the data is gone.  It isn't as strong as the
+techniques used by the military (xor, 3 writes) but I'm assuming that you aren't worried
+about someone disassembling your hard drive to find that file.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">pgpk -e 0x7BBD08DC</FONT><BR>
+    $ <font color="#008080">gpg --edit-key 0x7BBD08DC</FONT><BR>
+    $ <font color="#008080">cat `which gpg` &gt; mykey.sec</FONT><BR>
+    $ <font color="#008080">rm mykey.sec</FONT><BR>
+  <PRE>
+  </PRE>
+  </CODE>
+</BLOCKQUOTE>
+<H3>Test key.</H3>
+<P>Now we have our public and private DSS/Diffie-Hellman key on our
+GnuPG key ring.  We shall employ pgp to create a test message for us
+to decrypt.</P>
+<BLOCKQUOTE>
+  <CODE>
+    $ <font color="#008080">echo 'hello world' | pgpe -r 0x7BBD08DC |
+    gpg --decrypt</FONT><BR>
+  <PRE>
+No files specified.  Using stdin.
+
+  1024 bits, Key ID gpg (GNUPG) 0.4.0; Copyright (C) 1998 Free Software Foundation, Inc.
+This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it
+under certain conditions. See the file COPYING for details.
+
+7BBD08DC, Created 1997-07-23
+   "Caskey L. Dickson &lt;caskey@one.sample.com&gt;"
+   "Caskey L. Dickson &lt;caskey@two.sample.com&gt;"
+   "Caskey L. Dickson &lt;caskey@three.sample.com&gt;"
+
+You need a passphrase to unlock the secret key for
+user: "Caskey L. Dickson <caskey@technocage.com>"
+(4096-bit ELG-E key, ID 2B65D18B, created 1997-07-23)
+
+hello world        
+  </PRE>
+  </CODE>
+</BLOCKQUOTE>
+<P>And thus, we have used gpg to decrypt a message encrypted with PGP5
+and a PGP5 key.</P>
+
+<P>Comments welcome.</P>
+<HR>
+<EM>Copyright &copy; 1998</EM><BR>
+<cite><Img src="http://www.technocage.com/~caskey/email.gif"><BR>
+<EM>Last modified: 1998-10-12</EM>
+</cite>
+<IMG SRC="http://c1.thecounter.com/?id=122750">
+</BODY>
+</HTML>
