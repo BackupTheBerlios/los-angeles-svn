@@ -1,0 +1,16 @@
+diff -Naur iptables-1.2.11.orig/Makefile iptables-1.2.11/Makefile
+--- iptables-1.2.11.orig/Makefile	2004-06-17 14:21:07.000000000 +0300
++++ iptables-1.2.11/Makefile	2005-02-01 03:07:40.324410832 +0200
+@@ -17,10 +17,10 @@
+ IPTABLES_VERSION:=1.2.11
+ OLD_IPTABLES_VERSION:=1.2.10
+ 
+-PREFIX:=/usr/local
++PREFIX:=/usr
+ LIBDIR:=$(PREFIX)/lib
+ BINDIR:=$(PREFIX)/sbin
+-MANDIR:=$(PREFIX)/man
++MANDIR:=$(PREFIX)/share/man
+ INCDIR:=$(PREFIX)/include
+ 
+ # directory for new iptables releases
