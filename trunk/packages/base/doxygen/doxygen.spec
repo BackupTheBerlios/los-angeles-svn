@@ -6,11 +6,13 @@
 
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
+# TODO: clean target build
+
 %define sum		Doxygen is the documentation system for C/C++.
 %define sum_ru		Система документирования для C та C++.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		doxygen
-%define ver		1.3.6
+%define ver		1.4.1
 %define rel		los1
 %define url		http://www.doxygen.org/
 
@@ -25,6 +27,7 @@ Source0:	%{name}-%{version}.src.tar.gz
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:	perl
+BuildRequires:	task-c++-devel
 
 %description
 Doxygen is a documentation system for C, C++ and IDL. It can generate
@@ -72,5 +75,8 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_bindir}/doxytag
 
 %changelog
+* Mon Apr 04 2005 Igor Zubkov <icesik@mail.ru> 1.4.1-los1
+- update to 1.4.1.
+
 * Mon Dec 06 2004 Igor Zubkov <icesik@mail.ru> 1.3.6-los1
 - Initial build for Los Angeles GNU/Linux.
