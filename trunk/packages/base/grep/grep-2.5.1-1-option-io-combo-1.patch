@@ -1,0 +1,57 @@
+Submitted By: Jim Gifford (patches at jg555 dot com)
+Date: 2003-09-09
+Initial Package Version: 2.5.1
+Origin: Grep CVS
+Description: Fix -i -o combination
+	     When options -i -o are used incorrect results are shown
+
+diff -Naur grep-2.5.1.orig/src/grep.c grep-2.5.1/src/grep.c
+--- grep-2.5.1.orig/src/grep.c	2002-03-26 15:54:12.000000000 +0000
++++ grep-2.5.1/src/grep.c	2003-09-10 04:20:16.000000000 +0000
+@@ -533,6 +533,37 @@
+     {
+       size_t match_size;
+       size_t match_offset;
++      if(match_icase)
++        {
++          char *buf = (char*) xmalloc (lim - beg);
++	  char *ibeg = buf;
++	  char *ilim = ibeg + (lim - beg);
++	  int i;
++	  for (i = 0; i < lim - beg; i++)
++	    ibeg[i] = tolower (beg[i]);
++
++	  while ((match_offset = (*execute) (ibeg, lim - beg, &match_size, 1))
++		 != (size_t) -1)
++	    {
++	      char const *b = ibeg + match_offset;
++	      if (b == lim)
++		break;
++	      if (match_size == 0)
++		break;
++	      if(color_option)
++		printf("\33[%sm", grep_color);
++	      fwrite(b, sizeof (char), match_size, stdout);
++	      if(color_option)
++		fputs("\33[00m", stdout);
++	      fputs("\n", stdout);
++	      ibeg = b + match_size;
++	    }
++	  free (buf);
++	  lastout = lim;
++	  if(line_buffered)
++	    fflush(stdout);
++	  return;
++	}
+       while ((match_offset = (*execute) (beg, lim - beg, &match_size, 1))
+ 	  != (size_t) -1)
+         {
+@@ -573,6 +604,8 @@
+ 	      char const *b = beg + match_offset;
+ 	      if (b == lim)
+ 		break;
++	      if (match_size == 0)
++	        break;
+ 	      fwrite (beg, sizeof (char), match_offset, stdout);
+ 	      printf ("\33[%sm", grep_color);
+ 	      fwrite (b, sizeof (char), match_size, stdout);
