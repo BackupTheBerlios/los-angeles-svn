@@ -94,39 +94,38 @@ Group: System/Base
 libgcc3.4
 
 %prep
-#setup -q -n %{altname}-%{ver}
-#patch0 -p1
-#patch1 -p1
+%setup -q -n %{altname}-%{ver}
+%patch0 -p1
+%patch1 -p1
 
 %build
-#mv ChangeLog ChangeLog.all
-#CFLAGS="$RPM_OPT_FLAGS" \
-#CXXFLAGS="$RPM_OPT_FLAGS" \
-#./configure \
-#	--prefix=%{_prefix} \
-#	--libexecdir=%{_libdir} \
-#	--infodir=%{_infodir} \
-#	--mandir=%{_mandir} \
-#	--with-slibdir=%{_slibdir} \
-#	--enable-shared \
-#	--disable-static \
-#	--enable-threads=posix \
-#	--enable-__cxa_atexit \
-#	--enable-languages=c,c++ \
-#	--enable-c99 \
-#	--enable-long-long \
-#	--enable-multilib \
-#	--enable-nls \
-#	--with-gnu-as \
-#	--with-gnu-ld \
-#	--with-system-zlib \
-#	--without-x \
-#	%{_target_platform}
-#
-#{__make} %{_smp_mflags} bootstrap-lean
+mv ChangeLog ChangeLog.all
+CFLAGS="$RPM_OPT_FLAGS" \
+CXXFLAGS="$RPM_OPT_FLAGS" \
+./configure \
+	--prefix=%{_prefix} \
+	--libexecdir=%{_libdir} \
+	--infodir=%{_infodir} \
+	--mandir=%{_mandir} \
+	--with-slibdir=%{_slibdir} \
+	--enable-shared \
+	--disable-static \
+	--enable-threads=posix \
+	--enable-__cxa_atexit \
+	--enable-languages=c,c++ \
+	--enable-c99 \
+	--enable-long-long \
+	--enable-multilib \
+	--enable-nls \
+	--with-gnu-as \
+	--with-gnu-ld \
+	--with-system-zlib \
+	--without-x \
+	%{_target_platform}
+
+%{__make} %{_smp_mflags} bootstrap
 
 %install
-cd /usr/src/Lost/BUILD/gcc-3.4.3/
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
 
 #%find_lang gcc
@@ -147,8 +146,8 @@ rm -rf gpl.*
 %postun -n libgcc3.4 -p /sbin/ldconfig
 
 %clean
-#rm -rf %{buildroot}
-#rm -rf %{_builddir}/%{altname}-%{ver}
+rm -rf %{buildroot}
+rm -rf %{_builddir}/%{altname}-%{ver}
 
 %files
 %defattr(-,root,root)
