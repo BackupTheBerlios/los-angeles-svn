@@ -47,9 +47,6 @@ mkdir -p ${RPM_BUILD_ROOT}%{_prefix}/
 
 %find_lang %{name}
 
-cd ${RPM_BUILD_ROOT}%{_bindir}/
-ln -s killall pidof
-
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
