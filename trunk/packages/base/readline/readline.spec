@@ -10,23 +10,22 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		readline
 %define altname		readline
-%define ver		4.3
-%define rel		los1
+%define ver		5.0
+%define rel		los2
 
 Summary:	%{sum}
-Name:		lib%{name}
+Name:		lib%{name}5
 Version:	%{ver}
 Release:	%{rel}
 Packager:	%{maintainer}
 License:	GPL
 Group:		System/Libraries
 Group(ru_RU.KOI8-R):	Система/Библиотеки
-Source0:	ftp://ftp.gnu.org/gnu/readline-%{version}.tar.gz
+Source0:	ftp://ftp.gnu.org/gnu/readline-%{version}.tar.bz2
+Patch0:		readline-5.0-display_wrap-1.patch
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
-# work around!
-Provides:	libhistory.so.4.3
-Provides:	libreadline.so.4.3
+Obsoletes:	libreadline
 
 %description
 The Readline library provides a set of functions for use by applications
@@ -47,11 +46,14 @@ Group: Development/C
 Group(ru_RU.KOI8-R): Разработка/C
 Requires: %{name} = %{version}-%{release}
 
+Obsoletes:	libreadline-dev
+
 %description dev
 Development files for libreadline.
 
 %prep
 %setup -q -n %{altname}-%{ver}
+%patch0 -p1
 
 %build
 %configure
@@ -63,10 +65,15 @@ Development files for libreadline.
 cd ${RPM_BUILD_ROOT}%{_libdir}
 chmod +x *.so.*
 
-rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
+rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post
+/sbin/ldconfig
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
+/sbin/ldconfig
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %clean
 rm -rf %{buildroot}
@@ -74,7 +81,7 @@ rm -rf %{_builddir}/%{altname}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc CHANGELOG CHANGES README USAGE
+%doc CHANGELOG CHANGES COPYING NEWS README USAGE
 %{_libdir}/*.so.*
 %doc %{_infodir}/*
 
@@ -86,5 +93,11 @@ rm -rf %{_builddir}/%{altname}-%{version}
 %doc %{_man3dir}/*
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 5.0-los2
+- add obsoletes libreadline and libreadline-dev.
+
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 5.0-los1
+- update to 5.0.
+
 * Wed Jun 16 2004 Igor Zubkov <icesik@mail.ru> 4.3-los1
 - Initial build for Los Angeles GNU/Linux.
