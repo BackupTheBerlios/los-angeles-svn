@@ -9,7 +9,7 @@
 %define sum		GNU `m4' is an implementation of the traditional Unix macro processor.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		m4
-%define ver		1.4.2
+%define ver		1.4.3
 %define rel		los1
 
 Summary:	%{sum}
@@ -20,6 +20,7 @@ Packager:	%{maintainer}
 License:	GPL
 Group:		System/Base
 Source0:	%{name}-%{version}.tar.bz2
+Source1:	%{name}-%{version}.tar.bz2.sig
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -37,6 +38,7 @@ GNU `m4' has been originally written by René Seindal, from Denmark.
 %build
 %configure
 %{__make} %{_smp_mflags}
+%{__make} check || exit 1
 
 %install
 %makeinstall
@@ -63,6 +65,10 @@ rm -rf %{_builddir}/%{name}-%{version}
 #%{_datadir}/m4/*
 
 %changelog
+* Mon Apr 04 2005 Igor Zubkov <icesik@mail.ru> 1.4.3-los1
+- update to 1.4.3.
+- run check's.
+
 * Mon Mar 14 2005 Igor Zubkov <icesik@mail.ru> 1.4.2-los1
 - update to 1.4.2.
 
