@@ -1,0 +1,35 @@
+Submitted By: Matthew Burgess <matthew at linuxfromscratch dot org>
+Date: 2004-09-12
+Initial Package Version: 1.2.1
+Upstream Status: From - 1.2.2 should contain the fix
+Origin: http://bugs.gentoo.org/show_bug.cgi?id=61749
+Description: Zlib versions 1.2.x are susceptible to a denial of service
+             vulnerability.  Originally discovered via a debian bug, this issue
+             became CAN-2004-0797.
+
+diff -Naur zlib-1.2.1.orig/infback.c zlib-1.2.1/infback.c
+--- zlib-1.2.1.orig/infback.c	2003-08-11 23:48:06.000000000 +0000
++++ zlib-1.2.1/infback.c	2004-09-12 13:09:39.436425352 +0000
+@@ -434,6 +434,9 @@
+                 }
+             }
+ 
++            if (state->mode == BAD)
++                break;
++
+             /* build code tables */
+             state->next = state->codes;
+             state->lencode = (code const FAR *)(state->next);
+diff -Naur zlib-1.2.1.orig/inflate.c zlib-1.2.1/inflate.c
+--- zlib-1.2.1.orig/inflate.c	2003-10-26 06:15:36.000000000 +0000
++++ zlib-1.2.1/inflate.c	2004-09-12 13:10:08.083070400 +0000
+@@ -861,6 +861,9 @@
+                 }
+             }
+ 
++            if (state->mode == BAD)
++               break;
++
+             /* build code tables */
+             state->next = state->codes;
+             state->lencode = (code const FAR *)(state->next);
