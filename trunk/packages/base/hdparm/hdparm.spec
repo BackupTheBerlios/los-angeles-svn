@@ -10,7 +10,7 @@
 %define sum_ru		Утилита для отображения или настройки параметров (E)IDE устройств.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		hdparm
-%define ver		5.7
+%define ver		5.9
 %define rel		los1
 %define url		ftp://ibiblio.org/pub/Linux/system/hardware
 
@@ -23,10 +23,9 @@ Packager:		%{maintainer}
 License:		BSD
 Group:			System/Base
 Group(ru_RU.KOI8-R):	Система/База
-Source0:		%{name}-%{version}.tar.bz2
+Source0:		%{name}-%{version}.tar.gz
 Source1:		hdparm-sysconfig
 Patch0:			hdparm-5.7-alt-makefile.patch
-Patch1:			hdparm-5.7-lost1.patch
 URL:			%{url}
 Buildroot:		%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -44,10 +43,10 @@ Hdparm - это удобная системная утилита для настройки параметров (E)IDE
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1
 
 %build
-%{__make}
+%{__make} %{_smp_mflags} CC=%{__cc}
 
 %install
 mkdir -p ${RPM_BUILD_ROOT}/sbin/
@@ -69,5 +68,8 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_man8dir}/*
 
 %changelog
+* Mon Mar 14 2005 Igor Zubkov <icesik@mail.ru> 5.9-los1
+- update to 5.9.
+
 * Tue Nov 16 2004 Igor Zubkov <icesik@mail.ru> 5.7-los1
 - Initial build for Los Angeles GNU/Linux.
