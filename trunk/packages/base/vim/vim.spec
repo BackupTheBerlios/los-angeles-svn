@@ -9,8 +9,8 @@
 %define sum		Vim is an almost compatible version of the UNIX editor Vi.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		vim
-%define ver		6.3.045
-%define rel		los2
+%define ver		6.3.068
+%define rel		los1
 %define url		http://www.vim.org/
 
 Summary:	%{sum}
@@ -63,6 +63,29 @@ Patch40:	6.3.040
 Patch42:	6.3.042
 Patch43:	6.3.043
 Patch45:	6.3.045
+Patch46:	6.3.046
+Patch47:	6.3.047
+Patch48:	6.3.048
+Patch49:	6.3.049
+Patch50:	6.3.050
+Patch51:	6.3.051
+Patch52:	6.3.052
+Patch53:	6.3.053
+Patch54:	6.3.054
+Patch55:	6.3.055
+Patch56:	6.3.056
+Patch57:	6.3.057
+Patch58:	6.3.058
+Patch59:	6.3.059
+Patch60:	6.3.060
+Patch61:	6.3.061
+Patch62:	6.3.062
+Patch63:	6.3.063
+Patch64:	6.3.064
+Patch65:	6.3.065
+Patch66:	6.3.066
+Patch67:	6.3.067
+Patch68:	6.3.068
 URL:            %{url}
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -141,6 +164,29 @@ cd vim63/
 %patch42 -p0
 %patch43 -p0
 %patch45 -p0
+%patch46 -p0
+#%patch47 -p0
+#%patch48 -p0
+%patch49 -p0
+%patch50 -p0
+%patch51 -p0
+#%patch52 -p0
+%patch53 -p0
+%patch54 -p0
+%patch55 -p0
+%patch56 -p0
+%patch57 -p0
+%patch58 -p0
+%patch59 -p0
+%patch60 -p0
+%patch61 -p0
+%patch62 -p0
+%patch63 -p0
+%patch64 -p0
+%patch65 -p0
+%patch66 -p0
+%patch67 -p0
+%patch68 -p0
 
 %build
 %configure --enable-gui=no --without-x
@@ -163,6 +209,9 @@ rm -f  %{_builddir}/vim-6.3-lang.tar.gz
 %{_datadir}/vim/vim63/
 
 %changelog
+* Mon Apr 04 2005 Igor Zubkov <icesik@mail.ru> 6.3.068-los1
+- update to 6.3.068.
+
 * Sun Mar 27 2005 Igor Zubkov <icesik@mail.ru> 6.3.045-los2
 - remove some deps.
 - clean up spec.
