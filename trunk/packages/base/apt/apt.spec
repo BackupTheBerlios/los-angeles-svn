@@ -12,7 +12,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		apt
 %define ver		0.5.15cnc6
-%define rel		los3
+%define rel		los4
 %define url		https://moin.conectiva.com.br/AptRpm
 
 Summary:	%{sum}
@@ -149,6 +149,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_libdir}/*.la
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 0.5.15cnc6-los4
+- rebuild with gcc3.4-3.4.3.
+
 * Wed Mar 30 2005 Igor Zubkov <icesik@mail.ru> 0.5.15cnc6-los3
 - some fixes.
 - rebuild with new libreadline 5.0.
