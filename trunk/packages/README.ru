@@ -9,3 +9,4 @@
 и GNOME.
 4) kde -- Qt и KDE приложения
 5) gnome -- GNOME приложения
+6) documentation -- пакеты с документацией
