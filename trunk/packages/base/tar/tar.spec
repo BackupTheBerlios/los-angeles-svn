@@ -20,7 +20,7 @@ Packager:	%{maintainer}
 License:	GPL
 Group:		Archiving
 Group(ru_RU.KOI8-R):	Архиваторы
-Source0:	%{name}-1.15.1.tar.gz
+Source0:	%{name}-%{ver}.tar.bz2
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -53,7 +53,7 @@ rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_builddir}/%{name}-%{version}
+rm -rf %{_builddir}/%{name}-%{ver}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
