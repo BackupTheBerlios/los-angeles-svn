@@ -8,7 +8,7 @@
 
 Name: task-core
 Version: 1
-Release: los3
+Release: los4
 Summary: Metapackage for minimal environment.
 
 License: Public Domain
@@ -67,6 +67,7 @@ Requires: gnupg
 Requires: udev
 Requires: words
 Requires: libreadline
+Requires: fix-info-dir
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
@@ -80,6 +81,9 @@ environment inside chroot.
 %files
 
 %changelog
+* Fri Mar 11 2005 Igor Zubkov <icesik@mail.ru> 1-los4
+- add fix-info-dir to requires.
+
 * Mon Jan 10 2005 Igor Zubkov <icesik@mail.ru> 1-los2
 - s/zlib/libz/.
 
