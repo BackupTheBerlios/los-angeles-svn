@@ -1,0 +1,12 @@
+diff -Naur libpng-1.2.5.orig/scripts/makefile.linux libpng-1.2.5/scripts/makefile.linux
+--- libpng-1.2.5.orig/scripts/makefile.linux	2005-02-01 04:25:22.368672376 +0200
++++ libpng-1.2.5/scripts/makefile.linux	2005-02-01 04:24:00.217161304 +0200
+@@ -43,7 +43,7 @@
+ 
+ INCPATH=$(prefix)/include
+ LIBPATH=$(prefix)/lib
+-MANPATH=$(prefix)/man
++MANPATH=$(prefix)/share/man
+ BINPATH=$(prefix)/bin
+ 
+ # override DESTDIR= on the make install command line to easily support
