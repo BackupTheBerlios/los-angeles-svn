@@ -51,7 +51,7 @@ tload, top, uptime, vmstat, w É watch.
 #%patch2 -p1
 
 %build
-%{__make} CFLAGS="${RPM_OPT_FLAGS}" %{_smp_mflags} CC=gcc
+%{__make} CFLAGS="${RPM_OPT_FLAGS}" %{_smp_mflags} CC=%{__cc}
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install

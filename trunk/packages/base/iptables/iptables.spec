@@ -39,7 +39,7 @@ Linux.
 %patch0 -p1
 
 %build
-%{__make} %{_smp_mflags} PREFIX=/usr CC=gcc
+%{__make} %{_smp_mflags} PREFIX=/usr CC=%{__cc}
 
 %install
 %{__make} PREFIX=${RPM_BUILD_ROOT}/usr install

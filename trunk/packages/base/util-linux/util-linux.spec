@@ -45,8 +45,8 @@ fetch kernel messages.
 %build
 cp hwclock/hwclock.c{,.backup}
 sed 's%etc/adjtime%var/lib/hwclock/adjtime%' hwclock/hwclock.c.backup > hwclock/hwclock.c
-CC=gcc ./configure 
-%{__make} HAVE_KILL=yes HAVE_SLN=yes %{_smp_mflags} CC=gcc
+CC=%{__cc} ./configure 
+%{__make} HAVE_KILL=yes HAVE_SLN=yes %{_smp_mflags} CC=%{__cc}
 
 %install
 mkdir -p ${RPM_BUILD_ROOT}/var/lib/hwclock

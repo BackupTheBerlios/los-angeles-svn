@@ -40,7 +40,7 @@ log files on your system.
 %setup -q
 
 %build
-%{__make} RPM_OPT_FLAGS="${RPM_OPT_FLAGS}" %{_smp_mflags} CC=gcc
+%{__make} RPM_OPT_FLAGS="${RPM_OPT_FLAGS}" %{_smp_mflags} CC=%{__cc}
 
 %install
 %{__make} PREFIX=${RPM_BUILD_ROOT} MANDIR=%{_mandir} install
