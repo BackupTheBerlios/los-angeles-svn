@@ -8,7 +8,7 @@
 
 Name: task-core
 Version: 1
-Release: los4
+Release: los6
 Summary: Metapackage for minimal environment.
 
 License: Public Domain
@@ -18,8 +18,7 @@ Group: Tasks
 #Requires: alternatives # todo
 Requires: apt
 #Requires: basesystem # todo
-#Requires: bash2 # remove this!
-Requires: bash2-lite
+Requires: bash
 Requires: bzip2
 #Requires: chkconfig # todo
 Requires: lost_stuff
@@ -29,11 +28,9 @@ Requires: lost_stuff
 #Requires: console-tools-keymaps
 Requires: coreutils
 Requires: cracklib
-#Requires: dev # to remove
 Requires: ed
 #Requires: etcskel # todo
 Requires: filesystem
-#Requires: fileutils # coreutils replace it!
 Requires: findutils
 Requires: gawk
 Requires: gettext
@@ -66,7 +63,7 @@ Requires: gnupg
 #Requires: sysvinit # FIXME
 Requires: udev
 Requires: words
-Requires: libreadline
+Requires: libreadline5
 Requires: fix-info-dir
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
