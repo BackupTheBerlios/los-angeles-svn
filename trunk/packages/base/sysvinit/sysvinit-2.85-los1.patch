@@ -1,0 +1,14 @@
+diff -ur sysvinit-2.85.orig/src/Makefile sysvinit-2.85/src/Makefile
+--- sysvinit-2.85.orig/src/Makefile	2001-11-06 13:58:16.000000000 +0200
++++ sysvinit-2.85/src/Makefile	2004-12-14 04:22:32.000000000 +0200
+@@ -8,8 +8,8 @@
+ # Version:	@(#)Makefile  2.83-3  06-Nov-2001  miquels@cistron.nl
+ #
+ 
+-CC	= cc
+-CFLAGS	= -Wall -O2 -D_GNU_SOURCE
++CC	= gcc
++CFLAGS	= ${RPM_OPT_FLAGS} -D_GNU_SOURCE
+ LDFLAGS	= -s
+ STATIC	=
+ 
