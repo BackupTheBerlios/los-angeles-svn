@@ -20,10 +20,7 @@ Packager:	%{maintainer}
 License:	GPL
 Group:		Archiving
 Group(ru_RU.KOI8-R):	Архиваторы
-Source0:	%{name}-1.15.tar.gz
-#Source1:	%{name}-15.tar.gz.sig
-Source2:	tar-1.15-1.15.1.patch.gz
-Source3:	tar-1.15-1.15.1.patch.gz.sig
+Source0:	%{name}-1.15.1.tar.gz
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -36,10 +33,9 @@ remote archives, and the ability to perform incremental and full
 backups.
 
 %prep
-%setup -q -n tar-1.15
+%setup -q
 
 %build
-zcat %{SOURCE2} | patch -p1
 %configure
 %{__make} %{_smp_mflags}
 #%{__make} check || exit 1
@@ -57,7 +53,7 @@ rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %clean
 rm -rf %{buildroot}
-rm -rf %{_builddir}/%{name}-1.15
+rm -rf %{_builddir}/%{name}-%{version}
 
 %files -f %{name}.lang
 %defattr(-,root,root)
