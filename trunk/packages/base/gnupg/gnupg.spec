@@ -57,7 +57,7 @@ install -p -m644 %{SOURCE1} doc
 
 %install
 make DESTDIR=${RPM_BUILD_ROOT} install
-rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
+rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %find_lang %{name}
 
