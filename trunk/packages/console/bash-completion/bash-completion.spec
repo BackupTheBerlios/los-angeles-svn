@@ -10,7 +10,8 @@
 %define sum_ru		bash-completion - функции автодополнения для шелла bash.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		bash-completion
-%define ver		20050112
+%define ver		0
+%define date		20050121
 %define rel		los1
 %define url		http://www.caliban.org/bash/index.shtml#completion
 
@@ -18,18 +19,18 @@ Summary:		%{sum}
 Summary(ru_RU.KOI8-R):	%{sum_ru}
 Name:			%{name}
 Version:		%{ver}
-Release:		%{rel}
+Release:		%{rel}.%{date}
 Packager:		%{maintainer}
 License:		GPL
 Group:			Shells
 Group(ru_RU.KOI8-R):	Оболочки
-Source0:		%{name}-%{version}.tar.bz2
+Source0:		%{name}-%{date}.tar.bz2
 URL:			%{url}
 Buildroot:		%{_tmppath}/%{name}-%{version}-buildroot
 
 BuildArch:		noarch
 
-Requires:		bash2
+Requires:		bash
 
 %description
 bash-completion - some programmable completion functions for bash.
@@ -54,6 +55,9 @@ rm -rf %{_builddir}/bash_completion
 %config(noreplace) %{_sysconfdir}/bash_completion
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 0-los1.20050121
+- update to new release 20050121.
+
 * Thu Jan 13 2005 Igor Zubkov <icesik@mail.ru> 20050112-los1
 - update to new stable version 20050112.
 
