@@ -1,3 +1,11 @@
+# $Id$
+# This spec file is part of Los Angeles GNU/Linux and distributed 
+# under the terms of the GNU General Public License version 2
+# Copyright (c) 2005 by Los Angeles GNU/Linux Team
+# Homepage: http://los-angeles.berlios.de/
+
+# vim: set ft=spec: -*- mode: rpm-spec; -*-
+
 %define sum		hdparm - get/set hard disk parameters for Linux IDE drives.
 %define sum_ru		Утилита для отображения или настройки параметров (E)IDE устройств.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
