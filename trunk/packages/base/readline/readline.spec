@@ -63,7 +63,7 @@ Development files for libreadline.
 cd ${RPM_BUILD_ROOT}%{_libdir}
 chmod +x *.so.*
 
-rm -rf ${RPM_BUILD_ROOT}%{_infodir}/dir
+rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
