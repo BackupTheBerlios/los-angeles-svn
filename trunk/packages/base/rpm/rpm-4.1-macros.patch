@@ -1,0 +1,25 @@
+diff -ur rpm-4.1.orig/platform.in rpm-4.1/platform.in
+--- rpm-4.1.orig/platform.in	2002-09-17 21:14:45.000000000 +0300
++++ rpm-4.1/platform.in	2004-12-08 20:55:58.000000000 +0200
+@@ -141,3 +141,21 @@
+ @mandrake@%_gamesdir	games
+ @mandrake@%_gamesbindir   %{_prefix}/%{_gamesdir}
+ @mandrake@%_gamesdatadir  %{_datadir}/%{_gamesdir}
++
++@los_angeles@#-----------------------------------------------------------------
++@los_angeles@#	Los Angeles GNU/Linux vendor specific macros.
++@los_angeles@#	Contact icesik@mail.ru for details.
++@los_angeles@#
++@los_angeles@%distribution	Los Angeles GNU/Linux
++@los_angeles@%vendor		Los Angeles GNU/Linux Team
++@los_angeles@
++@los_angeles@# Manpage directories.
++@los_angeles@%_man1dir		%_mandir/man1
++@los_angeles@%_man2dir		%_mandir/man2
++@los_angeles@%_man3dir		%_mandir/man3
++@los_angeles@%_man4dir		%_mandir/man4
++@los_angeles@%_man5dir		%_mandir/man5
++@los_angeles@%_man6dir		%_mandir/man6
++@los_angeles@%_man7dir		%_mandir/man7
++@los_angeles@%_man8dir		%_mandir/man8
++@los_angeles@%_man9dir		%_mandir/man9

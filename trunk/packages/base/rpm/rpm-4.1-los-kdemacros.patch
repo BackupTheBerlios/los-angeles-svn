@@ -1,0 +1,47 @@
+diff -urN rpm-4.1.orig/platform.in rpm-4.1/platform.in
+--- rpm-4.1.orig/platform.in	2005-01-07 03:00:14.000000000 +0200
++++ rpm-4.1/platform.in	2005-01-07 02:59:10.000000000 +0200
+@@ -167,3 +167,43 @@
+ @los_angeles@%_x11includedir	%{_x11dir}/include
+ @los_angeles@%_x11mandir	%{_x11dir}/man
+ @los_angeles@%_x11datadir	%{_x11dir}/share
++@los_angeles@
++@los_angeles@# KDE and Qt macros
++@los_angeles@%_kdeprefix	/opt/kde
++@los_angeles@%_kdebindir	%{_kdeprefix}/bin
++@los_angeles@%_kdeexec_prefix	%{_kdeprefix}
++@los_angeles@%_kdesbindir	%{_kdeprefix}/sbin
++@los_angeles@%_kdelibexecdir	%{_kdeprefix}/libexec
++@los_angeles@%_kdedatadir	%{_kdeprefix}/share
++@los_angeles@%_kdesysconfdir	%{_kdeprefix}/etc
++@los_angeles@%_kdesharedstatedir	%{_kdeprefix}/com
++@los_angeles@%_kdelocalstatedir	%{_kdeprefix}/var
++@los_angeles@%_kdelib		lib
++@los_angeles@%_kdelibdir	%{_kdeexec_prefix}/%{_kdelib}
++@los_angeles@%_kdeincludedir	%{_kdeprefix}/include
++@los_angeles@%_kdeoldincludedir	/usr/include
++@los_angeles@%_kdeinfodir	%{_kdedatadir}/info
++@los_angeles@%_kdemandir	%{_kdedatadir}/man
++
++# This is improved version of %configure for KDE and Qt app
++# based on %configure from PLD team
++%configurekde \
++  CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS ; \
++  CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS ; \
++  FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
++  ./configure --host=%{_host} --build=%{_build} \\\
++	--target=%{_target_platform} \\\
++	--program-prefix=%{?_program_prefix} \\\
++ 	--prefix=%{_kdeprefix} \\\
++	--exec-prefix=%{_kdeexec_prefix} \\\
++	--bindir=%{_kdebindir} \\\
++	--sbindir=%{_kdesbindir} \\\
++	--sysconfdir=%{_kdesysconfdir} \\\
++	--datadir=%{_kdedatadir} \\\
++	--includedir=%{_includedir} \\\
++	--libdir=%{_libdir} \\\
++	--libexecdir=%{_libexecdir} \\\
++	--localstatedir=%{_localstatedir} \\\
++	--sharedstatedir=%{_sharedstatedir} \\\
++	--mandir=%{_mandir} \\\
++	--infodir=%{_infodir}

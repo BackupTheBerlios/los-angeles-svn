@@ -1,0 +1,163 @@
+diff -ur rpm-4.1.orig/python/header-py.c rpm-4.1/python/header-py.c
+--- rpm-4.1.orig/python/header-py.c	2002-08-08 02:19:10.000000000 +0300
++++ rpm-4.1/python/header-py.c	2004-12-08 00:17:21.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/poptmodule.c rpm-4.1/python/poptmodule.c
+--- rpm-4.1.orig/python/poptmodule.c	2002-06-05 23:28:03.000000000 +0300
++++ rpm-4.1/python/poptmodule.c	2004-12-08 00:16:57.000000000 +0200
+@@ -14,7 +14,7 @@
+ The latest version of the popt library is distributed with rpm\n\
+ and is always available from ftp://ftp.rpm.org/pub/rpm/dist";
+ 
+-#include <Python.h>
++#include <python2.2/Python.h>
+ #include <popt.h>
+ 
+ #define DEBUG 1
+diff -ur rpm-4.1.orig/python/rpmal-py.c rpm-4.1/python/rpmal-py.c
+--- rpm-4.1.orig/python/rpmal-py.c	2002-07-15 00:24:28.000000000 +0300
++++ rpm-4.1/python/rpmal-py.c	2004-12-08 00:17:38.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/_rpmdb.c rpm-4.1/python/_rpmdb.c
+--- rpm-4.1.orig/python/_rpmdb.c	2002-06-07 16:12:34.000000000 +0300
++++ rpm-4.1/python/_rpmdb.c	2004-12-08 00:17:01.000000000 +0200
+@@ -81,7 +81,7 @@
+ 
+ /* --------------------------------------------------------------------- */
+ 
+-#include <Python.h>
++#include <python2.2/Python.h>
+ #include <db.h>
+ 
+ /* --------------------------------------------------------------------- */
+diff -ur rpm-4.1.orig/python/rpmdb-py.c rpm-4.1/python/rpmdb-py.c
+--- rpm-4.1.orig/python/rpmdb-py.c	2002-07-25 20:03:12.000000000 +0300
++++ rpm-4.1/python/rpmdb-py.c	2004-12-08 00:17:25.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmds-py.c rpm-4.1/python/rpmds-py.c
+--- rpm-4.1.orig/python/rpmds-py.c	2002-07-19 23:26:39.000000000 +0300
++++ rpm-4.1/python/rpmds-py.c	2004-12-08 00:17:35.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmfd-py.c rpm-4.1/python/rpmfd-py.c
+--- rpm-4.1.orig/python/rpmfd-py.c	2002-07-15 00:24:28.000000000 +0300
++++ rpm-4.1/python/rpmfd-py.c	2004-12-08 00:17:04.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmfi-py.c rpm-4.1/python/rpmfi-py.c
+--- rpm-4.1.orig/python/rpmfi-py.c	2002-08-19 21:51:24.000000000 +0300
++++ rpm-4.1/python/rpmfi-py.c	2004-12-08 00:17:13.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmmi-py.c rpm-4.1/python/rpmmi-py.c
+--- rpm-4.1.orig/python/rpmmi-py.c	2002-08-10 02:14:10.000000000 +0300
++++ rpm-4.1/python/rpmmi-py.c	2004-12-08 00:17:09.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmmodule.c rpm-4.1/python/rpmmodule.c
+--- rpm-4.1.orig/python/rpmmodule.c	2002-08-13 19:37:52.000000000 +0300
++++ rpm-4.1/python/rpmmodule.c	2004-12-08 00:17:17.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmrc-py.c rpm-4.1/python/rpmrc-py.c
+--- rpm-4.1.orig/python/rpmrc-py.c	2002-08-06 00:46:52.000000000 +0300
++++ rpm-4.1/python/rpmrc-py.c	2004-12-08 00:19:51.000000000 +0200
+@@ -4,13 +4,13 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+ #endif
+ 
+-#include "structmember.h"
++#include "python2.2/structmember.h"
+ 
+ /*@unchecked@*/
+ extern PyTypeObject PyDictIter_Type;
+diff -ur rpm-4.1.orig/python/rpmte-py.c rpm-4.1/python/rpmte-py.c
+--- rpm-4.1.orig/python/rpmte-py.c	2002-07-15 00:24:29.000000000 +0300
++++ rpm-4.1/python/rpmte-py.c	2004-12-08 00:17:28.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;
+diff -ur rpm-4.1.orig/python/rpmts-py.c rpm-4.1/python/rpmts-py.c
+--- rpm-4.1.orig/python/rpmts-py.c	2002-09-03 15:26:09.000000000 +0300
++++ rpm-4.1/python/rpmts-py.c	2004-12-08 00:17:42.000000000 +0200
+@@ -4,7 +4,7 @@
+ 
+ #include "system.h"
+ 
+-#include "Python.h"
++#include "python2.2/Python.h"
+ #ifdef __LCLINT__
+ #undef  PyObject_HEAD
+ #define PyObject_HEAD   int _PyObjectHead;

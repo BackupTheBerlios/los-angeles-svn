@@ -1,0 +1,419 @@
+diff -urN rpm-4.1.orig/configure rpm-4.1/configure
+--- rpm-4.1.orig/configure	2002-08-31 16:23:24.000000000 +0300
++++ rpm-4.1/configure	2004-10-30 17:57:20.000000000 +0300
+@@ -21420,13 +21420,14 @@
+ esac
+ RPMCANONVENDOR="$build_vendor"
+ case "${build_vendor}" in
+-unknown|pc|ibm|redhat|pld|mandrake|conectiva|lvr|yellowdog)
++unknown|pc|ibm|redhat|pld|mandrake|conectiva|lvr|yellowdog|los_angeles)
+ 	test -f /etc/redhat-release &&		RPMCANONVENDOR=redhat
+ 	test -f /etc/pld-release &&		RPMCANONVENDOR=pld
+ 	test -f /etc/mandrake-release &&	RPMCANONVENDOR=mandrake
+ 	test -f /etc/conectiva-release &&	RPMCANONVENDOR=conectiva
+ 	test -f /etc/lvr-release &&		RPMCANONVENDOR=lvr
+ 	test -f /etc/yellowdog-release &&	RPMCANONVENDOR=yellowdog
++	test -f /etc/los_angeles-release &&	RPMCANONVENDOR=los_angeles
+ 	;;
+ esac
+ RPMCANONOS="$build_os_noversion"
+diff -urN rpm-4.1.orig/configure.ac rpm-4.1/configure.ac
+--- rpm-4.1.orig/configure.ac	2002-08-22 20:01:34.000000000 +0300
++++ rpm-4.1/configure.ac	2004-10-30 17:58:03.000000000 +0300
+@@ -1113,13 +1113,14 @@
+ esac
+ RPMCANONVENDOR="$build_vendor"
+ case "${build_vendor}" in
+-unknown|pc|ibm|redhat|pld|mandrake|conectiva|lvr|yellowdog)
++unknown|pc|ibm|redhat|pld|mandrake|conectiva|lvr|yellowdog|los_angeles)
+ 	test -f /etc/redhat-release &&		RPMCANONVENDOR=redhat
+ 	test -f /etc/pld-release &&		RPMCANONVENDOR=pld
+ 	test -f /etc/mandrake-release &&	RPMCANONVENDOR=mandrake
+ 	test -f /etc/conectiva-release &&	RPMCANONVENDOR=conectiva
+ 	test -f /etc/lvr-release &&		RPMCANONVENDOR=lvr
+ 	test -f /etc/yellowdog-release &&	RPMCANONVENDOR=yellowdog
++	test -f /etc/los_angeles-release &&	RPMCANONVENDOR=los_angeles
+ 	;;
+ esac
+ RPMCANONOS="$build_os_noversion"
+diff -urN rpm-4.1.orig/doc/manual/macros rpm-4.1/doc/manual/macros
+--- rpm-4.1.orig/doc/manual/macros	2001-07-28 03:33:07.000000000 +0300
++++ rpm-4.1/doc/manual/macros	2004-10-30 19:08:08.000000000 +0300
+@@ -245,14 +245,14 @@
+     %_sbindir		%{_exec_prefix}/sbin
+     %_libexecdir	%{_exec_prefix}/libexec
+     %_datadir		%{_prefix}/share
+-    %_sysconfdir	%{_prefix}/etc
++    %_sysconfdir	/etc
+     %_sharedstatedir	%{_prefix}/com
+     %_localstatedir	%{_prefix}/var
+     %_libdir		%{_exec_prefix}/lib
+     %_includedir	%{_prefix}/include
+     %_oldincludedir	/usr/include
+-    %_infodir		%{_prefix}/info
+-    %_mandir		%{_prefix}/man
++    %_infodir		%{_datadir}/info
++    %_mandir		%{_datadir}/man
+ \endverbatim
+ 
+ */
+diff -urN rpm-4.1.orig/installplatform rpm-4.1/installplatform
+--- rpm-4.1.orig/installplatform	2002-07-30 20:07:39.000000000 +0300
++++ rpm-4.1/installplatform	2004-10-30 19:10:51.000000000 +0300
+@@ -7,11 +7,11 @@
+ MACROS="${2:-macros}"
+ PLATFORM="${3:-platform}"
+ 
+-if grep /share/ $PLATFORM > /dev/null 2>&1 ; then
+-    DEFAULTDOCDIR='%{_usr}/share/doc'
+-else
+-    DEFAULTDOCDIR='%{_usr}/doc'
+-fi
++#if grep /share/ $PLATFORM > /dev/null 2>&1 ; then
++DEFAULTDOCDIR='%{_usr}/share/doc'
++#else
++#    DEFAULTDOCDIR='%{_usr}/doc'
++#fi
+ 
+ TEMPRC="/tmp/rpmrc.$$"
+ cat << E_O_F > $TEMPRC
+@@ -83,6 +83,9 @@
+   conectiva)
+     VENDORSED='-e s,^@conectiva@,,'
+     ;;
++  los_angeles)
++    VENDORSED='-e s,^@los_angeles@,,'
++    ;;
+   redhat)
+     VENDORSED='-e s,^@redhat@,,'
+     ;;
+diff -urN rpm-4.1.orig/lib/rpmrc.c rpm-4.1/lib/rpmrc.c
+--- rpm-4.1.orig/lib/rpmrc.c	2002-08-20 19:53:44.000000000 +0300
++++ rpm-4.1/lib/rpmrc.c	2004-10-30 18:06:07.000000000 +0300
+@@ -531,13 +531,13 @@
+     addMacro(NULL, "_preScriptEnvironment",NULL, prescriptenviron,RMIL_DEFAULT);
+ 
+     setVarDefault(-1,			"_topdir",
+-		"/usr/src/redhat",	"%{_usr}/src/redhat");
++		"/usr/src/Lost",	"%{_usr}/src/Lost");
+     setVarDefault(-1,			"_tmppath",
+ 		"/var/tmp",		"%{_var}/tmp");
+     setVarDefault(-1,			"_dbpath",
+ 		"/var/lib/rpm",		"%{_var}/lib/rpm");
+     setVarDefault(-1,			"_defaultdocdir",
+-		"/usr/doc",		"%{_usr}/doc");
++		"/usr/share/doc",	"%{_usr}/share/doc");
+ 
+     setVarDefault(-1,			"_rpmfilename",
+ 	"%%{ARCH}/%%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm",NULL);
+diff -urN rpm-4.1.orig/macros.in rpm-4.1/macros.in
+--- rpm-4.1.orig/macros.in	2002-09-01 01:30:19.000000000 +0300
++++ rpm-4.1/macros.in	2004-10-30 19:07:17.000000000 +0300
+@@ -128,7 +128,7 @@
+ %defattr(-,root,root)  \
+ %{nil}
+ 
+-%_defaultdocdir		%{_usr}/doc
++%_defaultdocdir		%{_usr}/share/doc
+ 
+ #	Path to cripts to autogenerate package dependencies.
+ %__find_provides	@FINDPROVIDES@
+@@ -184,7 +184,7 @@
+ %_tmppath		%{_var}/tmp
+ 
+ #	Path to top of build area.
+-%_topdir		%{_usrsrc}/redhat
++%_topdir		%{_usrsrc}/Lost
+ 
+ #	The path to the unzip executable (legacy, use %{__unzip} instead).
+ %_unzipbin		%{__unzip}
+@@ -843,15 +843,15 @@
+ %_sbindir		%{_exec_prefix}/sbin
+ %_libexecdir		%{_exec_prefix}/libexec
+ %_datadir		%{_prefix}/share
+-%_sysconfdir		%{_prefix}/etc
++%_sysconfdir		/etc
+ %_sharedstatedir	%{_prefix}/com
+ %_localstatedir		%{_prefix}/var
+ %_lib			lib
+ %_libdir		%{_exec_prefix}/%{_lib}
+ %_includedir		%{_prefix}/include
+ %_oldincludedir		/usr/include
+-%_infodir		%{_prefix}/info
+-%_mandir		%{_prefix}/man
++%_infodir		%{_datadir}/info
++%_mandir		%{_datadir}/man
+ 
+ #==============================================================================
+ # ---- config.guess platform macros.
+diff -urN rpm-4.1.orig/rpmpopt-4.1 rpm-4.1/rpmpopt-4.1
+--- rpm-4.1.orig/rpmpopt-4.1	2002-08-31 16:46:38.000000000 +0300
++++ rpm-4.1/rpmpopt-4.1	2004-10-30 18:29:54.000000000 +0300
+@@ -86,10 +86,10 @@
+ rpm	alias --filesbypkg --qf '[%-25{=NAME} %{FILENAMES}\n]' \
+ 	--POPTdesc=$"list all files from each package"
+ 
+-rpm alias --redhatprovides -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/redhat' --whatprovides \
++rpm alias --redhatprovides -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/Lost' --whatprovides \
+ 	--POPTdesc=$"find package name that contains a provided capability (needs rpmdb-redhat package installed)"
+ 
+-rpm alias --redhatrequires -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/redhat' --whatrequires \
++rpm alias --redhatrequires -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/Lost' --whatrequires \
+ 	--POPTdesc=$"find package name that contains a required capability (needs rpmdb-redhat package installed)"
+ 
+ # colon separated i18n domains to use as PO catalogue lookaside for
+diff -urN rpm-4.1.orig/rpmpopt.in rpm-4.1/rpmpopt.in
+--- rpm-4.1.orig/rpmpopt.in	2002-07-30 02:06:06.000000000 +0300
++++ rpm-4.1/rpmpopt.in	2004-10-30 18:31:20.000000000 +0300
+@@ -86,10 +86,10 @@
+ rpm	alias --filesbypkg --qf '[%-25{=NAME} %{FILENAMES}\n]' \
+ 	--POPTdesc=$"list all files from each package"
+ 
+-rpm alias --redhatprovides -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/redhat' --whatprovides \
++rpm alias --redhatprovides -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/Lost' --whatprovides \
+ 	--POPTdesc=$"find package name that contains a provided capability (needs rpmdb-redhat package installed)"
+ 
+-rpm alias --redhatrequires -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/redhat' --whatrequires \
++rpm alias --redhatrequires -q --define '_dbpath /usr/lib/rpmdb/%{_arch}-%{_vendor}-%{_os}/Lost' --whatrequires \
+ 	--POPTdesc=$"find package name that contains a required capability (needs rpmdb-redhat package installed)"
+ 
+ # colon separated i18n domains to use as PO catalogue lookaside for
+diff -urN rpm-4.1.orig/tests/hello-test/ba rpm-4.1/tests/hello-test/ba
+--- rpm-4.1.orig/tests/hello-test/ba	1998-10-20 18:36:12.000000000 +0300
++++ rpm-4.1/tests/hello-test/ba	2004-10-30 18:33:40.000000000 +0300
+@@ -6,10 +6,10 @@
+ destdir="`pwd`"
+ destdir="`dirname $destdir`"
+ 
+-cp hello-1.0.tar.gz ../usr/src/redhat/SOURCES
+-zcat hello-1.0.tar.gz | tar xOf - \*.spec > ../usr/src/redhat/SPECS/hello.spec
++cp hello-1.0.tar.gz ../usr/src/Lost/SOURCES
++zcat hello-1.0.tar.gz | tar xOf - \*.spec > ../usr/src/Lost/SPECS/hello.spec
+ 
+-${DBGX} $rpm -ba ../usr/src/redhat/SPECS/hello.spec 2>&1 | \
++${DBGX} $rpm -ba ../usr/src/Lost/SPECS/hello.spec 2>&1 | \
+ 	sed -e "s,$destdir,,g" -e '/^make\[[0-9][0-9]*\]:/d' > $0.out
+ 
+ diff $0.out $0.exp || exit 1
+diff -urN rpm-4.1.orig/tests/hello-test/ba.exp rpm-4.1/tests/hello-test/ba.exp
+--- rpm-4.1.orig/tests/hello-test/ba.exp	1999-03-09 20:47:08.000000000 +0200
++++ rpm-4.1/tests/hello-test/ba.exp	2004-10-30 18:34:26.000000000 +0300
+@@ -1,7 +1,7 @@
+ Executing: %prep
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+++ cd /usr/src/Lost/BUILD
+ + rm -rf hello-1.0
+ + /bin/gzip -d
+ + tar -xf -
+@@ -12,14 +12,14 @@
+ + exit 0
+ Executing: %build
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + make
+ cc     hello.c   -o hello
+ + exit 0
+ Executing: %install
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + rm -rf /var/tmp/hello-root
+ + mkdir -p /var/tmp/hello-root/usr/local/bin
+@@ -29,7 +29,7 @@
+ Processing files: hello
+ Executing: %doc
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + DOCDIR=/var/tmp/hello-root/usr/doc/hello-1.0
+ + export DOCDIR
+@@ -42,11 +42,11 @@
+ Provides: hi
+ Prereqs: /bin/sh
+ Requires: ld-linux.so.2 libc.so.6
+-Wrote: /usr/src/redhat/SRPMS/hello-1.0-1.src.rpm
+-Wrote: /usr/src/redhat/RPMS/sparc/hello-1.0-1.sparc.rpm
++Wrote: /usr/src/Lost/SRPMS/hello-1.0-1.src.rpm
++Wrote: /usr/src/Lost/RPMS/sparc/hello-1.0-1.sparc.rpm
+ Executing: %clean
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + rm -rf /var/tmp/hello-root
+ + exit 0
+diff -urN rpm-4.1.orig/tests/hello-test/i rpm-4.1/tests/hello-test/i
+--- rpm-4.1.orig/tests/hello-test/i	1999-03-09 18:53:52.000000000 +0200
++++ rpm-4.1/tests/hello-test/i	2004-10-30 18:35:26.000000000 +0300
+@@ -5,7 +5,7 @@
+ destdir="`dirname $destdir`"
+ 
+ #
+-# ../../rpm --rcfile ../../tests//usr/lib/rpm/rpmrc -i -vv --nodeps --prefix=/home/devel/jbj/src/rpm/tests/hello-test/../usr ../usr/src/redhat/RPMS/sparc/hello-1.0-1.sparc.rpm
++# ../../rpm --rcfile ../../tests//usr/lib/rpm/rpmrc -i -vv --nodeps --prefix=/home/devel/jbj/src/rpm/tests/hello-test/../usr ../usr/src/Lost/RPMS/sparc/hello-1.0-1.sparc.rpm
+ #
+ 
+ $rpm -i -vv --nodeps --relocate /usr="`pwd`/../usr" $myrpm | \
+diff -urN rpm-4.1.orig/tests/hello-test/i.exp rpm-4.1/tests/hello-test/i.exp
+--- rpm-4.1.orig/tests/hello-test/i.exp	1999-03-09 20:47:12.000000000 +0200
++++ rpm-4.1/tests/hello-test/i.exp	2004-10-30 18:35:40.000000000 +0300
+@@ -13,7 +13,7 @@
+ D: opening database mode: 01002
+ D: opening database in //var/lib/rpm/
+ D: installing binary rpms
+-Installing ../usr/src/redhat/RPMS/sparc/hello-1.0-1.sparc.rpm
++Installing ../usr/src/Lost/RPMS/sparc/hello-1.0-1.sparc.rpm
+ D: New Header signature
+ D: Signature size: 68
+ D: Signature pad : 4
+diff -urN rpm-4.1.orig/tests/hello-test/Makefile.am rpm-4.1/tests/hello-test/Makefile.am
+--- rpm-4.1.orig/tests/hello-test/Makefile.am	1999-01-21 20:43:08.000000000 +0200
++++ rpm-4.1/tests/hello-test/Makefile.am	2004-10-30 18:32:44.000000000 +0300
+@@ -17,6 +17,6 @@
+   rpmsignature="${top_builddir}/tools/rpmsignature" \
+   rpmdump="${top_builddir}/tools/dump" \
+   rpmdumpdb="${top_builddir}/tools/dumpdb" \
+-  myrpm='../usr/src/redhat/RPMS/*/hello-1.0-1.*.rpm'
++  myrpm='../usr/src/Lost/RPMS/*/hello-1.0-1.*.rpm'
+ 
+ TESTS = initdb showrc querytags ba ckL ckH ckS ckC i qi e
+diff -urN rpm-4.1.orig/tests/hello-test/Makefile.in rpm-4.1/tests/hello-test/Makefile.in
+--- rpm-4.1.orig/tests/hello-test/Makefile.in	2002-08-31 16:23:21.000000000 +0300
++++ rpm-4.1/tests/hello-test/Makefile.in	2004-10-30 18:33:07.000000000 +0300
+@@ -214,7 +214,7 @@
+   rpmsignature="${top_builddir}/tools/rpmsignature" \
+   rpmdump="${top_builddir}/tools/dump" \
+   rpmdumpdb="${top_builddir}/tools/dumpdb" \
+-  myrpm='../usr/src/redhat/RPMS/*/hello-1.0-1.*.rpm'
++  myrpm='../usr/src/Lost/RPMS/*/hello-1.0-1.*.rpm'
+ 
+ 
+ TESTS = initdb showrc querytags ba ckL ckH ckS ckC i qi e
+diff -urN rpm-4.1.orig/tests/hello-test/showrc.exp rpm-4.1/tests/hello-test/showrc.exp
+--- rpm-4.1.orig/tests/hello-test/showrc.exp	1998-11-19 20:10:59.000000000 +0200
++++ rpm-4.1/tests/hello-test/showrc.exp	2004-10-30 18:36:09.000000000 +0300
+@@ -32,7 +32,7 @@
+ require_distribution  : (not set)
+ require_icon          : (not set)
+ require_vendor        : (not set)
+-rpmdir                : /usr/src/redhat/RPMS
++rpmdir                : /usr/src/Lost/RPMS
+ rpmfilename           : %{ARCH}/%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}.rpm
+ signature             : none
+ sourcedir             : /usr/src/redhat/SOURCES
+@@ -40,5 +40,5 @@
+ srcrpmdir             : /usr/src/redhat/SRPMS
+ timecheck             : (not set)
+ tmppath               : /var/tmp
+-topdir                : /usr/src/redhat
++topdir                : /usr/src/Lost
+ vendor                : (not set)
+diff -urN rpm-4.1.orig/tests/hello-test/test0.exp rpm-4.1/tests/hello-test/test0.exp
+--- rpm-4.1.orig/tests/hello-test/test0.exp	1998-11-19 20:11:00.000000000 +0200
++++ rpm-4.1/tests/hello-test/test0.exp	2004-10-30 18:36:55.000000000 +0300
+@@ -1,9 +1,9 @@
+ Executing: %prep
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+++ cd /usr/src/Lost/BUILD
+ + rm -rf hello-1.0
+-+ /bin/gzip -dc /usr/src/redhat/SOURCES/hello-1.0.tar.gz
+++ /bin/gzip -dc /usr/src/Lost/SOURCES/hello-1.0.tar.gz
+ + tar -xf -
+ + STATUS=0
+ + [ 0 -ne 0 ]
+@@ -12,14 +12,14 @@
+ + exit 0
+ Executing: %build
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + make
+ cc     hello.c   -o hello
+ + exit 0
+ Executing: %install
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + rm -rf /var/tmp/hello-root
+ + mkdir -p /var/tmp/hello-root/usr/local/bin
+@@ -29,7 +29,7 @@
+ Processing files: hello
+ Executing: %doc
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + DOCDIR=/var/tmp/hello-root/usr/doc/hello-1.0
+ + export DOCDIR
+@@ -41,11 +41,11 @@
+ Finding requires...
+ Prereqs: /bin/sh
+ Requires: ld-linux.so.2 libc.so.6
+-Wrote: /usr/src/redhat/SRPMS/hello-1.0-1.src.rpm
+-Wrote: /usr/src/redhat/RPMS/sparc/hello-1.0-1.sparc.rpm
++Wrote: /usr/src/Lost/SRPMS/hello-1.0-1.src.rpm
++Wrote: /usr/src/Lost/RPMS/sparc/hello-1.0-1.sparc.rpm
+ Executing: %clean
+ + umask 022
+-+ cd /usr/src/redhat/BUILD
+++ cd /usr/src/Lost/BUILD
+ + cd hello-1.0
+ + rm -rf /var/tmp/hello-root
+ + exit 0
+diff -urN rpm-4.1.orig/tests/macros.in rpm-4.1/tests/macros.in
+--- rpm-4.1.orig/tests/macros.in	1999-09-30 02:29:58.000000000 +0300
++++ rpm-4.1/tests/macros.in	2004-10-30 18:32:24.000000000 +0300
+@@ -53,7 +53,7 @@
+ %_buildshell		/bin/sh
+ %_bzip2bin		@BZIP2BIN@
+ %_dbpath		%{_var}/lib/rpm
+-%_defaultdocdir		%{_usr}/doc
++%_defaultdocdir		%{_usr}/share/doc
+ #
+ # XXX fixowner, fixgroup, and fixperms are run at the end of hardcoded setup
+ %_fixowner		[ `id -u` = '0' ] && chown -R root
+@@ -72,7 +72,7 @@
+ %_specdir		%{_topdir}/SPECS
+ %_srcrpmdir		%{_topdir}/SRPMS
+ %_tmppath		%{_var}/tmp
+-%_topdir		%{_usrsrc}/redhat
++%_topdir		%{_usrsrc}/Lost
+ #
+ #==============================================================================
+ # ---- Optional rpmrc macros.
+diff -urN rpm-4.1.orig/Makefile.am rpm-4.1/Makefile.am
+--- rpm-4.1.orig/Makefile.am	2002-09-17 00:40:53.000000000 +0300
++++ rpm-4.1/Makefile.am	2004-10-31 18:27:40.000000000 +0200
+@@ -126,7 +126,7 @@
+ 
+ CVSTAG = r$(subst .,-,$(VERSION))
+ 
+-pkgsrcdir = $(prefix)/src/$(RPMCANONVENDOR)
++pkgsrcdir = $(prefix)/src/Lost
+ 
+ install-data-local:
+ 	@$(mkinstalldirs) $(DESTDIR)$(varprefix)/lib/rpm
+diff -urN rpm-4.1.orig/Makefile.in rpm-4.1/Makefile.in
+--- rpm-4.1.orig/Makefile.in	2002-09-17 00:41:07.000000000 +0300
++++ rpm-4.1/Makefile.in	2004-11-01 16:32:19.000000000 +0200
+@@ -292,7 +292,7 @@
+ 
+ CVSTAG = r$(subst .,-,$(VERSION))
+ 
+-pkgsrcdir = $(prefix)/src/$(RPMCANONVENDOR)
++pkgsrcdir = $(prefix)/src/Lost
+ subdir = .
+ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
+ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
