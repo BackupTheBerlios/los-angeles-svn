@@ -1,0 +1,68 @@
+Submitted By: Jim Gifford (patches at jg555 dot com)
+Date: 2003-09-12
+Initial Package Version: 3.80
+Origin: http://savannah.gnu.org/bugs/?func=detailbug&bug_id=2238&group_id=71
+Description: Make 3.80: At last, a (simple) way to reverse a list. 
+	     Consider this function: 
+
+..9 := 0 1 2 3 4 5 6 7 8 9 
+
+rev=$(eval res:=)$(foreach word,$1,$(eval res:=${word} ${res}))${res} 
+
+When used with this makefile snippet: 
+
+$(error [$(call rev,${..9})]) 
+
+we get: 
+
+$ make -f bug.mak 
+1:3: *** [ 9 8 7 6 5 4 3 2 1 0 ]. Stop. 
+
+This is fine. However, if we generate the result via a simply expanded
+variable, then oddness occurs. Change the $(error...) above to: 
+
+a:=$(call rev,${..9}) 
+$(error [${a}]) 
+
+This time make reports: 
+
+$ make -f bug.mak 
+1:5: *** [ 9 8 7 6 5 4 3 2 1 0 1 0 ]. Stop. 
+
+What's that extra "1 0 " doing there? Strangely, things start working
+again if we change "a" to a recursive variable. 
+
+diff -Naur make-3.80.orig/read.c make-3.80/read.c
+--- make-3.80.orig/read.c	2003-09-12 06:06:22.000000000 +0000
++++ make-3.80/read.c	2003-09-12 06:20:00.000000000 +0000
+@@ -457,8 +457,8 @@
+      struct ebuffer *ebuf;
+      int set_default;
+ {
+-  static char *collapsed = 0;
+-  static unsigned int collapsed_length = 0;
++  char *collapsed = 0;
++  unsigned int collapsed_length = 0;
+   unsigned int commands_len = 200;
+   char *commands;
+   unsigned int commands_idx = 0;
+@@ -571,9 +571,7 @@
+       if (collapsed_length < linelen+1)
+ 	{
+ 	  collapsed_length = linelen+1;
+-	  if (collapsed != 0)
+-	    free (collapsed);
+-	  collapsed = (char *) xmalloc (collapsed_length);
++	  collapsed = (char *) xrealloc (collapsed, collapsed_length);
+ 	}
+       strcpy (collapsed, line);
+       /* Collapse continuation lines.  */
+@@ -1230,6 +1228,8 @@
+   /* At eof, record the last rule.  */
+   record_waiting_files ();
+ 
++  if (collapsed)
++    free ((char *) collapsed);
+   free ((char *) commands);
+ 
+   return 1;
