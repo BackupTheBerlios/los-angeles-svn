@@ -10,7 +10,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		flex
 %define ver		2.5.31
-%define rel		los1
+%define rel		los2
 
 Summary:	%{sum}
 Name:		%{name}
@@ -21,10 +21,11 @@ License:	BSD
 Group:          Development/Other
 Group(ru_RU.KOI8-R):	Разработка/Разное
 Source0:        %{name}-%{version}.tar.bz2
+Patch0:		%{name}-%{version}-los1.patch
 Buildroot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires:	task-c++-devel
-Requires:	libstdc++
+Requires:	libstdc++3.3
 
 %description
 The flex program generates scanners.  Scanners are programs which can
@@ -42,6 +43,7 @@ application development.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
 %configure
@@ -74,6 +76,10 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_datadir}/locale/*/*/flex.mo
 
 %changelog
+* Fri Mar 4 2005 Gleb Golubitsky (Sectoid) <Sectoid_GGV@mail.ru> 2.5.31-los2
+- NMU
+- Added patch to proper build of X and etc.
+
 * Wed Dec 08 2004 Igor Zubkov <icesik@mail.ru> 2.5.31-los1
 - update to 2.5.31
 
