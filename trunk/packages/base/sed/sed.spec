@@ -10,7 +10,9 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		sed
 %define ver		4.1.4
-%define rel		los1
+%define rel		los2
+
+%define _exec_prefix	/
 
 Summary:	%{sum}
 Name:		%{name}
@@ -56,6 +58,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_man1dir}/*
 
 %changelog
+* Thu Mar 31 2005 Igor Zubkov <icesik@mail.ru> 4.1.4-los2
+- move sed from /usr/bin to /bin for fhs compatible.
+
 * Thu Mar 24 2005 Igor Zubkov <icesik@mail.ru> 4.1.4-los1
 - update to 4.1.4.
 
