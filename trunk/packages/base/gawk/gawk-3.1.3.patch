@@ -1,0 +1,70 @@
+diff -ur gawk-3.1.3.orig/awklib/Makefile.am gawk-3.1.3/awklib/Makefile.am
+--- gawk-3.1.3.orig/awklib/Makefile.am	2004-05-14 15:17:46.000000000 +0300
++++ gawk-3.1.3/awklib/Makefile.am	2004-05-14 15:32:39.000000000 +0300
+@@ -29,8 +29,8 @@
+ # not the source directory.
+ INCLUDES = -I..
+ 
+-datadir = @datadir@/awk
+-libexecdir = @libexecdir@/awk
++datadir = @datadir@/gawk-3.1.3
++libexecdir = @libexecdir@
+ 
+ bin_SCRIPTS = igawk
+ libexec_PROGRAMS = pwcat grcat
+diff -ur gawk-3.1.3.orig/Makefile.am gawk-3.1.3/Makefile.am
+--- gawk-3.1.3.orig/Makefile.am	2004-05-14 15:18:01.000000000 +0300
++++ gawk-3.1.3/Makefile.am	2004-05-14 15:42:41.000000000 +0300
+@@ -116,8 +116,8 @@
+ 
+ # Set autoconf Makefile.in variables correctly
+ datadir = @datadir@
+-awkdatadir = @datadir@/awk
+-libexecdir = @libexecdir@/awk
++awkdatadir = @datadir@/gawk-3.1.3
++libexecdir = @libexecdir@
+ 
+ # stuff for compiling gawk/pgawk
+ DEFPATH="\".$(PATH_SEPARATOR)$(awkdatadir)\""
+diff -ur gawk-3.1.3.orig/awklib/Makefile.in gawk-3.1.3/awklib/Makefile.in
+--- gawk-3.1.3.orig/awklib/Makefile.in	2004-05-14 15:18:06.000000000 +0300
++++ gawk-3.1.3/awklib/Makefile.in	2004-05-14 15:32:39.000000000 +0300
+@@ -144,7 +144,7 @@
+ build_os = @build_os@
+ build_vendor = @build_vendor@
+ 
+-datadir = @datadir@/awk
++datadir = @datadir@/gawk-3.1.3
+ exec_prefix = @exec_prefix@
+ host = @host@
+ host_alias = @host_alias@
+@@ -155,7 +155,7 @@
+ infodir = @infodir@
+ install_sh = @install_sh@
+ libdir = @libdir@
+-libexecdir = @libexecdir@/awk
++libexecdir = @libexecdir@
+ localstatedir = @localstatedir@
+ mandir = @mandir@
+ oldincludedir = @oldincludedir@
+diff -ur gawk-3.1.3.orig/Makefile.in gawk-3.1.3/Makefile.in
+--- gawk-3.1.3.orig/Makefile.in	2004-05-14 15:18:06.000000000 +0300
++++ gawk-3.1.3/Makefile.in	2004-05-14 15:43:00.000000000 +0300
+@@ -157,7 +157,7 @@
+ infodir = @infodir@
+ install_sh = @install_sh@
+ libdir = @libdir@
+-libexecdir = @libexecdir@/awk
++libexecdir = @libexecdir@
+ localstatedir = @localstatedir@
+ mandir = @mandir@
+ oldincludedir = @oldincludedir@
+@@ -261,7 +261,7 @@
+ 
+ # Get extra libs as needed
+ LDADD = @LIBINTL@ @SOCKET_LIBS@
+-awkdatadir = @datadir@/awk
++awkdatadir = @datadir@/gawk-3.1.3
+ 
+ # stuff for compiling gawk/pgawk
+ DEFPATH = "\".$(PATH_SEPARATOR)$(awkdatadir)\""
