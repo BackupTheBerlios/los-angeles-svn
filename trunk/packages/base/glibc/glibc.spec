@@ -35,6 +35,8 @@ PreReq:		lost_stuff
 BuildRequires:	lost_stuff
 Requires:	lost_stuff
 
+PreReq:		ldconfig
+
 %description
 Glibc  provides the  C  library  that  provides  the system calls and basic
 functions such as open, malloc, printf, etc. The C library is used by
@@ -100,20 +102,9 @@ their links updated.
 
 %build
 cd ${RPM_BUILD_DIR}
-#rm -rf build-%{name}
+rm -rf build-%{name}
 mkdir -p build-%{name}
 cd ${RPM_BUILD_DIR}/build-%{name}/
-
-#../glibc-&glibc-version;/configure --prefix=/usr \
-#    --disable-profile --enable-add-ons=nptl --with-tls \
-#    --libexecdir=/tmp/pt_chown --without-cvs \
-#    --with-headers=/tools/glibc-kernheaders
-
-#<screen><userinput>../glibc-&glibc-version;/configure --prefix=/usr \
-#    --disable-profile --enable-add-ons=nptl --with-tls \
-#    --with-__thread --enable-kernel=2.6.0 --without-cvs \
-#    --libexecdir=/usr/lib/glibc \
-#    --with-headers=/tools/glibc-kernheaders</userinput></screen>
 
 ../%{name}-%{ver}/configure \
 	--host=%{_host} \
@@ -148,7 +139,8 @@ rm -f ${RPM_BUILD_ROOT}%{_infodir}/dir
 rm -f ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.cache
 
 # Include ld.so.conf
-echo 'include ld.so.conf.d/*.conf' > ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.conf
+echo '/usr/lib' > ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.conf
+echo 'include ld.so.conf.d/*.conf' >> ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.conf
 chmod 644 ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.conf
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/ld.so.conf.d
 
