@@ -12,7 +12,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		apt
 %define ver		0.5.15cnc6
-%define rel		los2
+%define rel		los3
 %define url		https://moin.conectiva.com.br/AptRpm
 
 Summary:	%{sum}
@@ -27,12 +27,16 @@ Source0:	%{name}-%{version}.tar.bz2
 URL:            %{url}
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
-Requires:	libreadline
-BuildRequires:	libreadline-dev
+Requires:	libreadline5
+BuildRequires:	libreadline5-dev
+
+Requires:	libz
+BuildRequires:	libz-dev
 
 BuildRequires:	bzip2-dev
 BuildRequires:	task-c++-devel
 BuildRequires:	librpm-dev
+BuildRequires:	libpopt-dev
 
 Requires:	libapt = %{version}-%{release}
 Requires:	gnupg
@@ -101,24 +105,29 @@ package.
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
 
-#mkdir -p /etc/apt/
-#mkdir -p /var/lib/apt/lists/
-#mkdir -p /var/lib/apt/lists/partial
-#mkdir -p /var/cache/apt/archives/partial
+%find_lang %{name}
 
-%post -n libapt -p /sbin/ldconfig
+mkdir -p ${RPM_BUILD_ROOT}/etc/apt/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/apt/lists/
+mkdir -p ${RPM_BUILD_ROOT}/var/lib/apt/lists/partial
+mkdir -p ${RPM_BUILD_ROOT}/var/cache/apt/archives/partial
+
+%post   -n libapt -p /sbin/ldconfig
 %postun -n libapt -p /sbin/ldconfig
 
 %clean
 rm -rf %{buildroot}
 rm -rf %{_builddir}/%{name}-%{version}
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 %doc AUTHORS AUTHORS.RPM COPYING TODO doc/examples contrib
 %{_bindir}/apt-*
 %{_libdir}/apt/methods/*
-%{_datadir}/locale/*/*/apt.mo
+/etc/apt/
+/var/lib/apt/lists/
+/var/lib/apt/lists/partial
+/var/cache/apt/archives/partial
 
 %files utils
 %defattr(-,root,root)
@@ -140,6 +149,10 @@ rm -rf %{_builddir}/%{name}-%{version}
 %{_libdir}/*.la
 
 %changelog
+* Wed Mar 30 2005 Igor Zubkov <icesik@mail.ru> 0.5.15cnc6-los3
+- some fixes.
+- rebuild with new libreadline 5.0.
+
 * Wed Nov 24 2004 Igor Zubkov <icesik@mail.ru> 0.5.15cnc6-los2
 - repackage.
 
