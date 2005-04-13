@@ -20,7 +20,7 @@
 %define maintainer	Gleb Golubitsky (Sectoid) <Sectoid_GGV@mail.ru>
 %define name		xorg
 %define ver		6.8.2
-%define rel		los1
+%define rel		los1.1
 %define _iconsdir	/usr/X11R6/lib/X11/icons/
 %define _x11fontsdir	/usr/X11R6/lib/X11/fonts/
 
@@ -807,9 +807,9 @@ cat > %{_builddir}/xc/config/cf/host.def << EOF
 #define BuilderEMailAddr	"Sectoid_GGV@mail.ru"
 #define LinuxDistName		"Los Angeles GNU/Linux"
 
-#define DriverManDir		$(MANSOURCEPATH)4
+#define DriverManDir		/usr/X11R6/man/man4
 #define DriverManSuffix		4x /* use just one tab or cpp will die */
-#define MiscManDir		$(MANSOURCEPATH)7
+#define MiscManDir		/usr/X11R6/man/man7
 #define MiscManSuffix		7x /* use just one tab or cpp will die */
 EOF
 
