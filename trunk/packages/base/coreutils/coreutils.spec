@@ -69,10 +69,10 @@ ln -s ../../bin/install ${RPM_BUILD_ROOT}%{_bindir}
 
 # remove groups man page
 cd ${RPM_BUILD_ROOT}%{_man1dir}
-rm -rf groups.1*
+rm -f groups.1*
 
 # remove su man page (it already in shadow)
-rm -rf su.1*
+rm -f su.1*
 
 %clean
 rm -rf %{buildroot}
