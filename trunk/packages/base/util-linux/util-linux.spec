@@ -7,7 +7,7 @@
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
 # TODO: clean up build for non i486
-# TODO: update
+# TODO: fix install info files.
 
 %define sum		Util-Linux
 %define maintainer	Igor Zubkov <icesik@mail.ru>
