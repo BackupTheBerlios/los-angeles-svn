@@ -10,9 +10,9 @@
 %define sum_ru		Утилита для отображения или настройки параметров (E)IDE устройств.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		hdparm
-%define ver		5.9
+%define ver		6.0
 %define rel		los1
-%define url		ftp://ibiblio.org/pub/Linux/system/hardware
+%define url		ftp://ibiblio.org/pub/Linux/system/hardware/
 
 Summary:		%{sum}
 Summary(ru_RU.KOI8-R):	%{sum_ru}
@@ -24,7 +24,7 @@ License:		BSD
 Group:			System/Base
 Group(ru_RU.KOI8-R):	Система/База
 Source0:		%{name}-%{version}.tar.gz
-Source1:		hdparm-sysconfig
+#Source1:		hdparm-sysconfig
 Patch0:			hdparm-5.7-alt-makefile.patch
 URL:			%{url}
 Buildroot:		%{_tmppath}/%{name}-%{version}-buildroot
@@ -43,7 +43,6 @@ Hdparm - это удобная системная утилита для настройки параметров (E)IDE
 %prep
 %setup -q
 %patch0 -p1
-#%patch1 -p1
 
 %build
 %{__make} %{_smp_mflags} CC=%{__cc}
@@ -68,6 +67,9 @@ rm -rf %{_builddir}/%{name}-%{version}
 %doc %{_man8dir}/*
 
 %changelog
+* Tue Apr 19 2005 Igor Zubkov <icesik@mail.ru> 6.0-los1
+- update to 6.0.
+
 * Mon Mar 14 2005 Igor Zubkov <icesik@mail.ru> 5.9-los1
 - update to 5.9.
 
