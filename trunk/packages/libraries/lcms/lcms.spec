@@ -2,7 +2,7 @@ Summary:	Little CMS - a library to transform between colour profiles
 Summary(ru):	Little cms - система управления цветом
 Name:		lcms
 Version:	1.14
-Release:	los1
+Release:	los1.1
 License:	MIT
 Group:		Libraries
 Source0:	http://prdownloads.sf.net/lcms/lcms-%{version}.tar.gz

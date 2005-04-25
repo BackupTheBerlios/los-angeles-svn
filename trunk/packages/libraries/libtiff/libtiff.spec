@@ -10,7 +10,7 @@
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		libtiff
 %define ver		3.7.1
-%define rel		los1
+%define rel		los1.1
 %define url		http://www.remotesensing.org/libtiff/
 
 Summary:	%{sum}
@@ -29,6 +29,8 @@ Requires:	libjpeg
 BuildRequires:	libjpeg-dev
 Requires:	libz
 BuildRequires:	libz-dev
+
+BuildRequires:	task-c++-devel
 
 %description
 This package is a library of functions that manipulate TIFF images.
