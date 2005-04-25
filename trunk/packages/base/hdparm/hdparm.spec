@@ -7,10 +7,10 @@
 # vim: set ft=spec: -*- mode: rpm-spec; -*-
 
 %define sum		hdparm - get/set hard disk parameters for Linux IDE drives.
-%define sum_ru		Утилита для отображения или настройки параметров (E)IDE устройств.
+%define sum_ru		Утилита для отображения и настройки параметров (E)IDE устройств.
 %define maintainer	Igor Zubkov <icesik@mail.ru>
 %define name		hdparm
-%define ver		6.0
+%define ver		6.1
 %define rel		los1
 %define url		ftp://ibiblio.org/pub/Linux/system/hardware/
 
@@ -24,18 +24,18 @@ License:		BSD
 Group:			System/Base
 Group(ru_RU.KOI8-R):	Система/База
 Source0:		%{name}-%{version}.tar.gz
-#Source1:		hdparm-sysconfig
+Source1:		hdparm-sysconfig
 Patch0:			hdparm-5.7-alt-makefile.patch
 URL:			%{url}
 Buildroot:		%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
-Hdparm is a useful system utility for setting (E)IDE hard drive
+hdparm is a useful system utility for setting (E)IDE hard drive
 parameters.  For example, hdparm can be used to tweak hard drive
 performance and to spin down hard drives for power conservation.
 
 %description -l ru_RU.KOI8-R
-Hdparm - это удобная системная утилита для настройки параметров (E)IDE
+hdparm - это удобная системная утилита для настройки параметров (E)IDE
 устройств.  Например, hdparm может быть использован для увеличения
 скорости работы жесткого диски или для понижения частоты вращения
 устройства для сохранения энергии (или понижения шума).
@@ -62,11 +62,15 @@ rm -rf %{_builddir}/%{name}-%{version}
 
 %files
 %defattr(-,root,root)
-%doc Changelog README.acoustic hdparm-sysconfig hdparm.lsm contrib
+%doc Changelog README.acoustic hdparm-sysconfig hdparm.lsm contrib LICENSE.TXT
+%doc debian
 /sbin/*
 %doc %{_man8dir}/*
 
 %changelog
+* Thu Apr 21 2005 Igor Zubkov <icesik@mail.ru> 6.1-los1
+- update to 6.1.
+
 * Tue Apr 19 2005 Igor Zubkov <icesik@mail.ru> 6.0-los1
 - update to 6.0.
 
