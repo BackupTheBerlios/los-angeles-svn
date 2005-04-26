@@ -1,10 +1,11 @@
 Summary:	ATK - Accessibility Toolkit
 Name:		atk
-Version:	1.8.0
-Release:	los1
+Version:	1.9.0
+Release:	los1.1
 License:	LGPL v2
 Group:		X11/Libraries
 Source0:	%{name}-%{version}.tar.bz2
+Source1:	%{name}-%{version}.tar.bz2.md5
 BuildRequires:	glib-dev
 #BuildRequires:	gtk-doc		>= 1.0
 #BuildRequires:	pkgconfig
@@ -34,7 +35,7 @@ ATK - header and development documentation.
 	--disable-static \
 	--enable-shared \
 	--with-html-dir=%{_docdir}/gtk-doc/html
-%{__make}
+%{__make} %{_smp_mflags}
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
@@ -47,11 +48,11 @@ ATK - header and development documentation.
 %postun -p /sbin/ldconfig
 
 %files -f atk10.lang
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %{_libdir}/lib*.so.*
 
 %files dev
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc AUTHORS ChangeLog NEWS
 %{_libdir}/lib*.la
 %{_libdir}/lib*.so

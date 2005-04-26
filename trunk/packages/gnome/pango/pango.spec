@@ -1,10 +1,11 @@
 Summary:	System for layout and rendering of internationalized text
 Name:		pango
-Version:	1.6.0
-Release:	los1
+Version:	1.8.1
+Release:	los1.1
 License:	LGPL v2
 Group:		X11/Libraries
 Source0:	pango-%{version}.tar.bz2
+Source1:	pango-%{version}.tar.bz2.md5
 URL:		http://www.pango.org/
 #BuildRequires:	XFree86-devel
 #BuildRequires:	docbook-dtd412-xml
@@ -39,10 +40,11 @@ Developer files for pango.
 	--disable-static \
 	--with-fribidi \
 	--with-html-dir=%{_docdir}/gtk-doc/html
-%{__make}
+%{__make} %{_smp_mflags}
+%{__make} check || exit 1
 
 %install
-%{__make} DESTDIR=$RPM_BUILD_ROOT install \
+%{__make} DESTDIR=${RPM_BUILD_ROOT} install \
 	HTML_DIR=%{_docdir}/gtk-doc/html
 
 %clean
@@ -55,7 +57,7 @@ umask 022
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc AUTHORS NEWS README examples/HELLO.utf8
 %dir %{_sysconfdir}/pango
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pango/pangox.aliases
@@ -65,12 +67,12 @@ umask 022
 %dir %{_libdir}/pango
 %dir %{_libdir}/pango/*
 %dir %{_libdir}/pango/*/modules
-%attr(755,root,root) %{_libdir}/pango/*/modules/*.so
+%{_libdir}/pango/*/modules/*.so
 %{_libdir}/pango/*/modules/*.la
 %doc %{_man1dir}/*
 
 %files dev
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc ChangeLog TODO
 %{_libdir}/lib*.so
 %{_libdir}/lib*.la

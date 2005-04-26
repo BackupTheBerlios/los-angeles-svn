@@ -1,10 +1,11 @@
 Summary:	Useful routines for 'C' programming
 Name:		glib
-Version:	2.4.8
+Version:	2.6.4
 Release:	los1
 License:	LGPL v2
 Group:		Libraries
-Source0:	glib-%{version}.tar.bz2
+Source0:	%{name}-%{version}.tar.bz2
+Source1:	%{name}-%{version}.tar.bz2.md5
 URL:		http://www.gtk.org/
 Buildroot:	%{_tmppath}/%{name}-%{version}-buildroot
 
@@ -32,11 +33,12 @@ structures.
 	--disable-static \
 	--with-html-path=%{_docdir}/gtk-doc/html
 
-%{__make}
+%{__make} %{_smp_mflags}
+%{__make} check || exit 1
 
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install \
-	HTML_DIR=%{_defaultdocdir}/gtk-doc/html
+	HTML_DIR=%{_docdir}/gtk-doc/html
 
 %find_lang glib20
 
@@ -48,12 +50,12 @@ rm -rf %{_builddir}/%{name}-%{version}
 %postun -p /sbin/ldconfig
 
 %files -f glib20.lang
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc AUTHORS README NEWS ChangeLog
 %{_libdir}/lib*.so.*
 
 %files dev
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %{_bindir}/*
 %{_libdir}/lib*.so
 %{_libdir}/lib*.la
