@@ -1,0 +1,10 @@
+diff -ur wmMatrix-0.2.orig/Makefile wmMatrix-0.2/Makefile
+--- wmMatrix-0.2.orig/Makefile	1999-08-16 12:01:58.000000000 -0400
++++ wmMatrix-0.2/Makefile	2005-05-03 19:31:51.000000000 -0400
+@@ -1,5 +1,5 @@
+ CC     = gcc
+-CFLAGS = -O2 -Wall 
++CFLAGS = $(RPM_OPT_FLAGS) -Wall 
+ INCDIR = -I/usr/X11R6/include/X11 -I/usr/X11R6/include
+ DESTDIR= /usr/X11R6
+ LIBDIR = -L/usr/X11R6/lib
